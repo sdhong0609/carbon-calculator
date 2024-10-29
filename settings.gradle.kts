@@ -30,4 +30,5 @@ include(
 // feature
 include(
     ":feature:main",
+    ":feature:calculator"
 )
