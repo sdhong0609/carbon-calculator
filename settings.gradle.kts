@@ -31,5 +31,6 @@ include(
 include(
     ":feature:main",
     ":feature:calculator",
-    ":feature:history"
+    ":feature:history",
+    ":feature:setting"
 )
