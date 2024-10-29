@@ -21,3 +21,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "CarbonCalculator"
 include(":app")
+
+// core
+include(
+    ":core:designsystem",
+)

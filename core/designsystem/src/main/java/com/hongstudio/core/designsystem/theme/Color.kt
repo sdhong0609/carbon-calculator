@@ -1,4 +1,4 @@
-package com.hongstudio.carboncalculator.ui.theme
+package com.hongstudio.core.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 
