@@ -26,3 +26,8 @@ include(":app")
 include(
     ":core:designsystem",
 )
+
+// feature
+include(
+    ":feature:main",
+)
