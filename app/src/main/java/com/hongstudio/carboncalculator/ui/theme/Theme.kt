@@ -1,6 +1,5 @@
 package com.hongstudio.carboncalculator.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -12,25 +11,63 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = White,
+    onPrimary = Neon01,
+    primaryContainer = Graphite,
+    onPrimaryContainer = White,
+    inversePrimary = Green03,
+    secondary = Green04,
+    onSecondary = Green01,
+    secondaryContainer = Green04,
+    onSecondaryContainer = White,
+    tertiary = Yellow05,
+    onTertiary = Yellow01,
+    tertiaryContainer = Yellow04,
+    onTertiaryContainer = White,
+    error = Red02,
+    onError = Red05,
+    errorContainer = Red04,
+    onErrorContainer = Red01,
+    surface = Graphite,
+    onSurface = White,
+    onSurfaceVariant = White,
+    surfaceDim = Black,
+    surfaceContainerHigh = DuskGray,
+    inverseSurface = Neon05,
+    inverseOnSurface = Black,
+    outline = DarkGray,
+    outlineVariant = Cosmos,
+    scrim = Black,
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    primary = Neon01,
+    onPrimary = White,
+    primaryContainer = White,
+    onPrimaryContainer = Black,
+    inversePrimary = Neon01,
+    secondary = Green04,
+    onSecondary = White,
+    secondaryContainer = Green01,
+    onSecondaryContainer = Green04,
+    tertiary = Yellow01,
+    onTertiary = Black,
+    tertiaryContainer = Yellow03A40,
+    onTertiaryContainer = Yellow04,
+    error = Red03,
+    onError = White,
+    errorContainer = Red01,
+    onErrorContainer = Red06,
+    surface = PaperGray,
+    onSurface = DuskGray,
+    onSurfaceVariant = DarkGray,
+    surfaceDim = PaleGray,
+    surfaceContainerHigh = LightGray,
+    inverseSurface = Yellow05,
+    inverseOnSurface = White,
+    outline = LightGray,
+    outlineVariant = DarkGray,
+    scrim = Black,
 )
 
 @Composable
