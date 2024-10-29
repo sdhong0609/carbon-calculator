@@ -16,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.hongstudio.core.designsystem.theme.Green03
 import com.hongstudio.feature.calculator.navigation.calculatorNavGraph
+import com.hongstudio.feature.history.navigation.historyNavGraph
 
 @Composable
 internal fun MainScreen() {
@@ -29,6 +30,7 @@ internal fun MainScreen() {
                 startDestination = "calculator",
             ) {
                 calculatorNavGraph(padding = padding)
+                historyNavGraph(padding = padding)
             }
         },
         bottomBar = {
