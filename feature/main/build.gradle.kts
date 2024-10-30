@@ -41,6 +41,7 @@ dependencies {
     implementation(project(":feature:calculator"))
     implementation(project(":feature:history"))
     implementation(project(":feature:setting"))
+    implementation(project(":core:navigation"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

@@ -8,11 +8,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.painterResource
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.hongstudio.core.designsystem.theme.Green03
 import com.hongstudio.feature.calculator.navigation.calculatorNavGraph
@@ -21,14 +22,13 @@ import com.hongstudio.feature.setting.navigation.settingNavGraph
 
 @Composable
 internal fun MainScreen() {
-    var selectedItemIndex by rememberSaveable { mutableIntStateOf(0) }
     val navController = rememberNavController()
 
     Scaffold(
         content = { padding ->
             NavHost(
                 navController = navController,
-                startDestination = "calculator",
+                startDestination = MainTab.CALCULATOR.route,
             ) {
                 calculatorNavGraph(padding = padding)
                 historyNavGraph(padding = padding)
@@ -37,12 +37,21 @@ internal fun MainScreen() {
         },
         bottomBar = {
             NavigationBar {
-                MainTab.entries.forEachIndexed { index, tab ->
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentDestination = navBackStackEntry?.destination
+                MainTab.entries.forEach { tab ->
+                    val selected =
+                        currentDestination?.hierarchy?.any { it.hasRoute(tab.route::class) } == true
                     NavigationBarItem(
-                        selected = selectedItemIndex == index,
+                        selected = selected,
                         onClick = {
-                            selectedItemIndex = index
-                            // navController.navigate(item.title)
+                            navController.navigate(tab.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
                         },
                         label = {
                             Text(text = tab.title)
@@ -51,7 +60,7 @@ internal fun MainScreen() {
                         icon = {
                             Icon(
                                 painter = painterResource(tab.iconResId),
-                                tint = if (selectedItemIndex == index) Green03 else MaterialTheme.colorScheme.outline,
+                                tint = if (selected) Green03 else MaterialTheme.colorScheme.outline,
                                 contentDescription = tab.title
                             )
                         }
