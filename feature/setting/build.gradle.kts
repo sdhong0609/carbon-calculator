@@ -37,6 +37,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:navigation"))
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui.tooling)

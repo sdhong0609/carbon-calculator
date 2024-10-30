@@ -25,6 +25,7 @@ include(":app")
 // core
 include(
     ":core:designsystem",
+    ":core:navigation"
 )
 
 // feature
