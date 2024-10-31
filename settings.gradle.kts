@@ -21,3 +21,17 @@ dependencyResolutionManagement {
 
 rootProject.name = "CarbonCalculator"
 include(":app")
+
+// core
+include(
+    ":core:designsystem",
+    ":core:navigation"
+)
+
+// feature
+include(
+    ":feature:main",
+    ":feature:calculator",
+    ":feature:history",
+    ":feature:setting"
+)
