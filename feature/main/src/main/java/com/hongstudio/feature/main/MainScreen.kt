@@ -20,16 +20,6 @@ internal fun MainScreen() {
     val navigator = rememberMainNavigator()
 
     Scaffold(
-        content = { padding ->
-            NavHost(
-                navController = navigator.navController,
-                startDestination = navigator.startDestination,
-            ) {
-                calculatorNavGraph(padding = padding)
-                historyNavGraph(padding = padding)
-                settingNavGraph(padding = padding)
-            }
-        },
         bottomBar = {
             NavigationBar {
                 MainTab.entries.forEach { tab ->
@@ -49,7 +39,16 @@ internal fun MainScreen() {
                 }
             }
         }
-    )
+    ) { innerPadding ->
+        NavHost(
+            navController = navigator.navController,
+            startDestination = navigator.startDestination,
+        ) {
+            calculatorNavGraph(padding = innerPadding)
+            historyNavGraph(padding = innerPadding)
+            settingNavGraph(padding = innerPadding)
+        }
+    }
 }
 
 @Preview
