@@ -12,19 +12,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.hongstudio.feature.calculator.component.CalculatorBottomButtons
 import com.hongstudio.feature.calculator.component.CalculatorLabeledTextField
 import com.hongstudio.feature.calculator.model.CalculatorType
 
 @Composable
-internal fun CalculatorRoute(padding: PaddingValues) {
-    CalculatorScreen(padding = padding)
+internal fun CalculatorRoute(padding: PaddingValues, onResultClick: () -> Unit) {
+    CalculatorScreen(padding = padding, onResultClick = onResultClick)
 }
 
 @Composable
-private fun CalculatorScreen(padding: PaddingValues) {
+private fun CalculatorScreen(padding: PaddingValues, onResultClick: () -> Unit) {
     val scrollState = rememberScrollState()
     var electricityInput by rememberSaveable { mutableStateOf("") }
     var gasInput by rememberSaveable { mutableStateOf("") }
@@ -37,7 +39,8 @@ private fun CalculatorScreen(padding: PaddingValues) {
             .fillMaxWidth()
             .verticalScroll(state = scrollState)
             .padding(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CalculatorLabeledTextField(
             calculatorType = CalculatorType.ELECTRICITY,
@@ -55,11 +58,20 @@ private fun CalculatorScreen(padding: PaddingValues) {
             calculatorType = CalculatorType.TRASH,
             input = trashInput
         ) { trashInput = it }
+        CalculatorBottomButtons(
+            onResetClick = {
+                electricityInput = ""
+                gasInput = ""
+                waterInput = ""
+                trashInput = ""
+            },
+            onResultClick = onResultClick
+        )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun CalculatorScreenPreview() {
-    CalculatorScreen(padding = PaddingValues())
+    CalculatorScreen(padding = PaddingValues(), onResultClick = {})
 }

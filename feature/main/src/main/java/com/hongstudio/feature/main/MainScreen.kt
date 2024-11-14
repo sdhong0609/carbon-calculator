@@ -45,7 +45,10 @@ internal fun MainScreen() {
                 navController = navigator.navController,
                 startDestination = navigator.startDestination,
             ) {
-                calculatorNavGraph(padding = innerPadding)
+                calculatorNavGraph(
+                    padding = innerPadding,
+                    onResultClick = navigator::navigateCalculatorResult
+                )
 //                historyNavGraph(padding = innerPadding)
 //                settingNavGraph(padding = innerPadding)
             }

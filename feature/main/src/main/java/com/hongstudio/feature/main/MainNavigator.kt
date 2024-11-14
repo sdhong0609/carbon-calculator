@@ -11,6 +11,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import com.hongstudio.feature.calculator.navigation.navigateCalculatorResult
 
 internal class MainNavigator(
     val navController: NavHostController,
@@ -35,6 +36,10 @@ internal class MainNavigator(
         }
 
         navController.navigate(tab.route, navOption)
+    }
+
+    fun navigateCalculatorResult() {
+        navController.navigateCalculatorResult()
     }
 }
 
