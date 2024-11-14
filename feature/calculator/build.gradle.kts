@@ -38,6 +38,7 @@ android {
 
 dependencies {
     implementation(project(":core:navigation"))
+    implementation(project(":core:designsystem"))
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui.tooling)
