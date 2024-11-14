@@ -6,7 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.hongstudio.core.navigation.MainTabRoute
 import com.hongstudio.core.navigation.Route
-import com.hongstudio.feature.calculator.CalculatorResultScreen
+import com.hongstudio.feature.calculator.CalculatorResultRoute
 import com.hongstudio.feature.calculator.CalculatorRoute
 
 fun NavController.navigateCalculatorResult() {
@@ -25,6 +25,6 @@ fun NavGraphBuilder.calculatorNavGraph(
     }
 
     composable<Route.CalculatorResult> {
-        CalculatorResultScreen()
+        CalculatorResultRoute(padding = padding)
     }
 }
