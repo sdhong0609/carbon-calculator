@@ -1,5 +1,6 @@
 package com.hongstudio.feature.calculator
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,7 +35,8 @@ private fun CalculatorScreen(padding: PaddingValues) {
             .padding(padding)
             .fillMaxWidth()
             .verticalScroll(state = scrollState)
-            .padding(all = 16.dp)
+            .padding(all = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         CalculatorLabeledTextField("전기 사용량", electricityInput) { electricityInput = it }
         CalculatorLabeledTextField("가스 사용량", gasInput) { gasInput = it }
