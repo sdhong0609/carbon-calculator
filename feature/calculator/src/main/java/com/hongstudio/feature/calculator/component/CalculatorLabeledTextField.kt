@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hongstudio.feature.calculator.model.CalculatorType
 
@@ -93,5 +94,15 @@ private fun CalculatorTextField(
             imeAction = imeAction
         ),
         keyboardActions = keyboardActions
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun CalculatorLabeledTextFieldPreview() {
+    CalculatorLabeledTextField(
+        calculatorType = CalculatorType.ELECTRICITY,
+        input = "123.456",
+        onInputChange = {}
     )
 }
