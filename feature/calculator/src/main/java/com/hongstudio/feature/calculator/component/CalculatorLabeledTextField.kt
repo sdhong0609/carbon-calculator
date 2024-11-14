@@ -25,6 +25,7 @@ internal fun CalculatorLabeledTextField(
     iconTint: Color,
     label: String,
     input: String,
+    unit: String,
     onInputChange: (String) -> Unit
 ) {
     Row(
@@ -43,7 +44,13 @@ internal fun CalculatorLabeledTextField(
             )
             Text(modifier = Modifier.padding(end = 8.dp), text = label)
         }
-        CalculatorTextField(input, onInputChange)
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            CalculatorTextField(input, onInputChange)
+            Text(modifier = Modifier.widthIn(min = 56.dp), text = "${unit}/월")
+        }
     }
 }
 
@@ -53,7 +60,7 @@ private fun CalculatorTextField(
     onInputChange: (String) -> Unit
 ) {
     OutlinedTextField(
-        modifier = Modifier.widthIn(max = 200.dp),
+        modifier = Modifier.widthIn(max = 150.dp),
         value = input,
         placeholder = { Text("숫자 입력") },
         onValueChange = { value ->

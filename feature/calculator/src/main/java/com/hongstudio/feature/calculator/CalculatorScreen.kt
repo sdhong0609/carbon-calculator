@@ -46,24 +46,28 @@ private fun CalculatorScreen(padding: PaddingValues) {
             iconResId = R.drawable.ic_electrical_outlet,
             iconTint = Yellow01,
             label = "전기 사용량",
+            unit = "kWh",
             input = electricityInput
         ) { electricityInput = it }
         CalculatorLabeledTextField(
             iconResId = R.drawable.ic_fire,
             iconTint = Red03,
             label = "가스 사용량",
+            unit = "m³",
             input = gasInput
         ) { gasInput = it }
         CalculatorLabeledTextField(
             iconResId = R.drawable.ic_water_drop,
             iconTint = Mint01,
             label = "수도 사용량",
+            unit = "m³",
             input = waterInput
         ) { waterInput = it }
         CalculatorLabeledTextField(
             iconResId = R.drawable.ic_recycling,
             iconTint = Green03,
-            label = "폐기물 사용량",
+            label = "생활 폐기물",
+            unit = "L",
             input = trashInput
         ) { trashInput = it }
     }
