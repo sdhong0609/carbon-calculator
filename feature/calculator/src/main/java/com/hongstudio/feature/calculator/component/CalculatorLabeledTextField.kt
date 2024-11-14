@@ -3,8 +3,10 @@ package com.hongstudio.feature.calculator.component
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
@@ -44,11 +46,16 @@ internal fun CalculatorLabeledTextField(
             )
             Text(modifier = Modifier.padding(end = 8.dp), text = label)
         }
+        Spacer(modifier = Modifier.width(8.dp))
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            CalculatorTextField(input, onInputChange)
+            CalculatorTextField(
+                modifier = Modifier.weight(1f),
+                input = input,
+                onInputChange = onInputChange
+            )
             Text(modifier = Modifier.widthIn(min = 56.dp), text = "${unit}/월")
         }
     }
@@ -56,11 +63,10 @@ internal fun CalculatorLabeledTextField(
 
 @Composable
 private fun CalculatorTextField(
-    input: String,
-    onInputChange: (String) -> Unit
+    modifier: Modifier, input: String, onInputChange: (String) -> Unit
 ) {
     OutlinedTextField(
-        modifier = Modifier.widthIn(max = 150.dp),
+        modifier = modifier,
         value = input,
         placeholder = { Text("숫자 입력") },
         onValueChange = { value ->
