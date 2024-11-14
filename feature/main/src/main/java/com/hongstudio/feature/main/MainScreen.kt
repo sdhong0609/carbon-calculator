@@ -21,23 +21,23 @@ internal fun MainScreen() {
 
     Scaffold(
         bottomBar = {
-            NavigationBar {
-                MainTab.entries.forEach { tab ->
-                    NavigationBarItem(
-                        selected = navigator.currentTab == tab,
-                        onClick = { navigator.navigate(tab) },
-                        label = { Text(text = tab.title) },
-                        alwaysShowLabel = false,
-                        icon = {
-                            Icon(
-                                painter = painterResource(tab.iconResId),
-                                tint = if (navigator.currentTab == tab) Green03 else MaterialTheme.colorScheme.outline,
-                                contentDescription = tab.title
-                            )
-                        }
-                    )
-                }
-            }
+//            NavigationBar {
+//                MainTab.entries.forEach { tab ->
+//                    NavigationBarItem(
+//                        selected = navigator.currentTab == tab,
+//                        onClick = { navigator.navigate(tab) },
+//                        label = { Text(text = tab.title) },
+//                        alwaysShowLabel = false,
+//                        icon = {
+//                            Icon(
+//                                painter = painterResource(tab.iconResId),
+//                                tint = if (navigator.currentTab == tab) Green03 else MaterialTheme.colorScheme.outline,
+//                                contentDescription = tab.title
+//                            )
+//                        }
+//                    )
+//                }
+//            }
         }
     ) { innerPadding ->
         NavHost(
@@ -45,8 +45,8 @@ internal fun MainScreen() {
             startDestination = navigator.startDestination,
         ) {
             calculatorNavGraph(padding = innerPadding)
-            historyNavGraph(padding = innerPadding)
-            settingNavGraph(padding = innerPadding)
+//            historyNavGraph(padding = innerPadding)
+//            settingNavGraph(padding = innerPadding)
         }
     }
 }
