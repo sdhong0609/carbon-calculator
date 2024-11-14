@@ -15,11 +15,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hongstudio.core.designsystem.theme.Green03
-import com.hongstudio.core.designsystem.theme.Mint01
-import com.hongstudio.core.designsystem.theme.Red03
-import com.hongstudio.core.designsystem.theme.Yellow01
 import com.hongstudio.feature.calculator.component.CalculatorLabeledTextField
+import com.hongstudio.feature.calculator.model.CalculatorType
 
 @Composable
 internal fun CalculatorRoute(padding: PaddingValues) {
@@ -43,31 +40,19 @@ private fun CalculatorScreen(padding: PaddingValues) {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         CalculatorLabeledTextField(
-            iconResId = R.drawable.ic_electrical_outlet,
-            iconTint = Yellow01,
-            label = "전기 사용량",
-            unit = "kWh",
+            calculatorType = CalculatorType.ELECTRICITY,
             input = electricityInput
         ) { electricityInput = it }
         CalculatorLabeledTextField(
-            iconResId = R.drawable.ic_fire,
-            iconTint = Red03,
-            label = "가스 사용량",
-            unit = "m³",
+            calculatorType = CalculatorType.GAS,
             input = gasInput
         ) { gasInput = it }
         CalculatorLabeledTextField(
-            iconResId = R.drawable.ic_water_drop,
-            iconTint = Mint01,
-            label = "수도 사용량",
-            unit = "m³",
+            calculatorType = CalculatorType.WATER,
             input = waterInput
         ) { waterInput = it }
         CalculatorLabeledTextField(
-            iconResId = R.drawable.ic_recycling,
-            iconTint = Green03,
-            label = "생활 폐기물",
-            unit = "L",
+            calculatorType = CalculatorType.TRASH,
             input = trashInput
         ) { trashInput = it }
     }
