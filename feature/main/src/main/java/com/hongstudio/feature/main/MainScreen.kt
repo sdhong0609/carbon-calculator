@@ -1,19 +1,15 @@
 package com.hongstudio.feature.main
 
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
-import com.hongstudio.core.designsystem.theme.Green03
+import com.hongstudio.core.designsystem.theme.White
 import com.hongstudio.feature.calculator.navigation.calculatorNavGraph
-import com.hongstudio.feature.history.navigation.historyNavGraph
-import com.hongstudio.feature.setting.navigation.settingNavGraph
 
 @Composable
 internal fun MainScreen() {
@@ -40,13 +36,19 @@ internal fun MainScreen() {
 //            }
         }
     ) { innerPadding ->
-        NavHost(
-            navController = navigator.navController,
-            startDestination = navigator.startDestination,
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(White)
         ) {
-            calculatorNavGraph(padding = innerPadding)
-//            historyNavGraph(padding = innerPadding)
-//            settingNavGraph(padding = innerPadding)
+            NavHost(
+                navController = navigator.navController,
+                startDestination = navigator.startDestination,
+            ) {
+                calculatorNavGraph(padding = innerPadding)
+//                historyNavGraph(padding = innerPadding)
+//                settingNavGraph(padding = innerPadding)
+            }
         }
     }
 }
