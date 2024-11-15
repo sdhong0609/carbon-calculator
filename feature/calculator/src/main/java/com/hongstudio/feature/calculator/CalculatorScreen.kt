@@ -16,17 +16,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.hongstudio.core.model.CalculatorData
 import com.hongstudio.feature.calculator.component.CalculatorBottomButtons
 import com.hongstudio.feature.calculator.component.CalculatorLabeledTextField
 import com.hongstudio.feature.calculator.model.CalculatorType
 
 @Composable
-internal fun CalculatorRoute(padding: PaddingValues, onResultClick: () -> Unit) {
+internal fun CalculatorRoute(padding: PaddingValues, onResultClick: (CalculatorData) -> Unit) {
     CalculatorScreen(padding = padding, onResultClick = onResultClick)
 }
 
 @Composable
-private fun CalculatorScreen(padding: PaddingValues, onResultClick: () -> Unit) {
+private fun CalculatorScreen(padding: PaddingValues, onResultClick: (CalculatorData) -> Unit) {
     val scrollState = rememberScrollState()
     var electricityInput by rememberSaveable { mutableStateOf("") }
     var gasInput by rememberSaveable { mutableStateOf("") }
@@ -65,7 +66,21 @@ private fun CalculatorScreen(padding: PaddingValues, onResultClick: () -> Unit) 
                 waterInput = ""
                 trashInput = ""
             },
-            onResultClick = onResultClick
+            onResultClick = {
+                val electricity = electricityInput.ifEmpty { "0" }.toDouble()
+                val gas = gasInput.ifEmpty { "0" }.toDouble()
+                val water = waterInput.ifEmpty { "0" }.toDouble()
+                val trash = trashInput.ifEmpty { "0" }.toDouble()
+
+                onResultClick(
+                    CalculatorData(
+                        electricity = electricity,
+                        gas = gas,
+                        water = water,
+                        trash = trash
+                    )
+                )
+            }
         )
     }
 }
