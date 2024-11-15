@@ -8,4 +8,20 @@ data class CalculatorData(
     val gas: Double,
     val water: Double,
     val trash: Double
-)
+) {
+    companion object {
+        fun create(
+            electricity: Double,
+            gas: Double,
+            water: Double,
+            trash: Double
+        ): CalculatorData {
+            return CalculatorData(
+                electricity = electricity,
+                gas = gas,
+                water = water,
+                trash = trash
+            )
+        }
+    }
+}

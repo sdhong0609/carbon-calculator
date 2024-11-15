@@ -9,25 +9,35 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hongstudio.core.model.CalculatorData
 import com.hongstudio.feature.calculator.component.CalculatorBottomButtons
 import com.hongstudio.feature.calculator.component.CalculatorLabeledTextField
 import com.hongstudio.feature.calculator.model.CalculatorType
+import com.hongstudio.feature.calculator.model.CalculatorUiState
 
 @Composable
 internal fun CalculatorRoute(
     padding: PaddingValues,
-    navigateToCalculatorResult: (CalculatorData) -> Unit
+    navigateToCalculatorResult: (CalculatorData) -> Unit,
+    viewModel: CalculatorViewModel = hiltViewModel()
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     CalculatorScreen(
         padding = padding,
+        uiState = uiState,
+        onInputElectricity = viewModel::onInputElectricity,
+        onInputGas = viewModel::onInputGas,
+        onInputWater = viewModel::onInputWater,
+        onInputTrash = viewModel::onInputTrash,
+        onResetClick = viewModel::onResetClick,
+        calculatorData = viewModel::calculatorData,
         navigateToCalculatorResult = navigateToCalculatorResult
     )
 }
@@ -35,13 +45,16 @@ internal fun CalculatorRoute(
 @Composable
 private fun CalculatorScreen(
     padding: PaddingValues,
-    navigateToCalculatorResult: (CalculatorData) -> Unit
+    uiState: CalculatorUiState,
+    onInputElectricity: (String) -> Unit,
+    onInputGas: (String) -> Unit,
+    onInputWater: (String) -> Unit,
+    onInputTrash: (String) -> Unit,
+    onResetClick: () -> Unit,
+    calculatorData: () -> CalculatorData,
+    navigateToCalculatorResult: (CalculatorData) -> Unit,
 ) {
     val scrollState = rememberScrollState()
-    var electricityInput by rememberSaveable { mutableStateOf("") }
-    var gasInput by rememberSaveable { mutableStateOf("") }
-    var waterInput by rememberSaveable { mutableStateOf("") }
-    var trashInput by rememberSaveable { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -54,41 +67,28 @@ private fun CalculatorScreen(
     ) {
         CalculatorLabeledTextField(
             calculatorType = CalculatorType.ELECTRICITY,
-            input = electricityInput
-        ) { electricityInput = it }
+            input = uiState.electricityInput,
+            onInputChange = onInputElectricity
+        )
         CalculatorLabeledTextField(
             calculatorType = CalculatorType.GAS,
-            input = gasInput
-        ) { gasInput = it }
+            input = uiState.gasInput,
+            onInputChange = onInputGas
+        )
         CalculatorLabeledTextField(
             calculatorType = CalculatorType.WATER,
-            input = waterInput
-        ) { waterInput = it }
+            input = uiState.waterInput,
+            onInputChange = onInputWater
+        )
         CalculatorLabeledTextField(
             calculatorType = CalculatorType.TRASH,
-            input = trashInput
-        ) { trashInput = it }
+            input = uiState.trashInput,
+            onInputChange = onInputTrash
+        )
         CalculatorBottomButtons(
-            onResetClick = {
-                electricityInput = ""
-                gasInput = ""
-                waterInput = ""
-                trashInput = ""
-            },
+            onResetClick = onResetClick,
             onResultClick = {
-                val electricity = electricityInput.ifEmpty { "0" }.toDouble()
-                val gas = gasInput.ifEmpty { "0" }.toDouble()
-                val water = waterInput.ifEmpty { "0" }.toDouble()
-                val trash = trashInput.ifEmpty { "0" }.toDouble()
-
-                navigateToCalculatorResult(
-                    CalculatorData(
-                        electricity = electricity,
-                        gas = gas,
-                        water = water,
-                        trash = trash
-                    )
-                )
+                navigateToCalculatorResult(calculatorData())
             }
         )
     }
@@ -99,6 +99,13 @@ private fun CalculatorScreen(
 private fun CalculatorScreenPreview() {
     CalculatorScreen(
         padding = PaddingValues(),
-        navigateToCalculatorResult = {}
+        navigateToCalculatorResult = {},
+        uiState = CalculatorUiState(),
+        onInputElectricity = {},
+        onInputGas = {},
+        onInputWater = {},
+        onInputTrash = {},
+        onResetClick = {},
+        calculatorData = { CalculatorData.create(0.0, 0.0, 0.0, 0.0) }
     )
 }
