@@ -24,7 +24,7 @@ fun NavGraphBuilder.calculatorNavGraph(
     composable<MainTabRoute.Calculator> {
         CalculatorRoute(
             padding = padding,
-            onResultClick = navigateToCalculatorResult
+            navigateToCalculatorResult = navigateToCalculatorResult
         )
     }
 

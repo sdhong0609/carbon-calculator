@@ -22,12 +22,21 @@ import com.hongstudio.feature.calculator.component.CalculatorLabeledTextField
 import com.hongstudio.feature.calculator.model.CalculatorType
 
 @Composable
-internal fun CalculatorRoute(padding: PaddingValues, onResultClick: (CalculatorData) -> Unit) {
-    CalculatorScreen(padding = padding, onResultClick = onResultClick)
+internal fun CalculatorRoute(
+    padding: PaddingValues,
+    navigateToCalculatorResult: (CalculatorData) -> Unit
+) {
+    CalculatorScreen(
+        padding = padding,
+        navigateToCalculatorResult = navigateToCalculatorResult
+    )
 }
 
 @Composable
-private fun CalculatorScreen(padding: PaddingValues, onResultClick: (CalculatorData) -> Unit) {
+private fun CalculatorScreen(
+    padding: PaddingValues,
+    navigateToCalculatorResult: (CalculatorData) -> Unit
+) {
     val scrollState = rememberScrollState()
     var electricityInput by rememberSaveable { mutableStateOf("") }
     var gasInput by rememberSaveable { mutableStateOf("") }
@@ -72,7 +81,7 @@ private fun CalculatorScreen(padding: PaddingValues, onResultClick: (CalculatorD
                 val water = waterInput.ifEmpty { "0" }.toDouble()
                 val trash = trashInput.ifEmpty { "0" }.toDouble()
 
-                onResultClick(
+                navigateToCalculatorResult(
                     CalculatorData(
                         electricity = electricity,
                         gas = gas,
@@ -88,5 +97,8 @@ private fun CalculatorScreen(padding: PaddingValues, onResultClick: (CalculatorD
 @Preview(showBackground = true)
 @Composable
 private fun CalculatorScreenPreview() {
-    CalculatorScreen(padding = PaddingValues(), onResultClick = {})
+    CalculatorScreen(
+        padding = PaddingValues(),
+        navigateToCalculatorResult = {}
+    )
 }
