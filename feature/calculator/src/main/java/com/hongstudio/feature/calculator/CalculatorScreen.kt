@@ -32,10 +32,10 @@ internal fun CalculatorRoute(
     CalculatorScreen(
         padding = padding,
         uiState = uiState,
-        onInputElectricity = viewModel::onInputElectricity,
-        onInputGas = viewModel::onInputGas,
-        onInputWater = viewModel::onInputWater,
-        onInputTrash = viewModel::onInputTrash,
+        onElectricityChange = viewModel::onElectricityChange,
+        onGasChange = viewModel::onGasChange,
+        onWaterChange = viewModel::onWaterChange,
+        onTrashChange = viewModel::onTrashChange,
         onResetClick = viewModel::onResetClick,
         calculatorData = viewModel::calculatorData,
         navigateToCalculatorResult = navigateToCalculatorResult
@@ -46,10 +46,10 @@ internal fun CalculatorRoute(
 private fun CalculatorScreen(
     padding: PaddingValues,
     uiState: CalculatorUiState,
-    onInputElectricity: (String) -> Unit,
-    onInputGas: (String) -> Unit,
-    onInputWater: (String) -> Unit,
-    onInputTrash: (String) -> Unit,
+    onElectricityChange: (String) -> Unit,
+    onGasChange: (String) -> Unit,
+    onWaterChange: (String) -> Unit,
+    onTrashChange: (String) -> Unit,
     onResetClick: () -> Unit,
     calculatorData: () -> CalculatorData,
     navigateToCalculatorResult: (CalculatorData) -> Unit,
@@ -68,22 +68,22 @@ private fun CalculatorScreen(
         CalculatorLabeledTextField(
             calculatorType = CalculatorType.ELECTRICITY,
             input = uiState.electricityInput,
-            onInputChange = onInputElectricity
+            onValueChange = onElectricityChange
         )
         CalculatorLabeledTextField(
             calculatorType = CalculatorType.GAS,
             input = uiState.gasInput,
-            onInputChange = onInputGas
+            onValueChange = onGasChange
         )
         CalculatorLabeledTextField(
             calculatorType = CalculatorType.WATER,
             input = uiState.waterInput,
-            onInputChange = onInputWater
+            onValueChange = onWaterChange
         )
         CalculatorLabeledTextField(
             calculatorType = CalculatorType.TRASH,
             input = uiState.trashInput,
-            onInputChange = onInputTrash
+            onValueChange = onTrashChange
         )
         CalculatorBottomButtons(
             onResetClick = onResetClick,
@@ -101,10 +101,10 @@ private fun CalculatorScreenPreview() {
         padding = PaddingValues(),
         navigateToCalculatorResult = {},
         uiState = CalculatorUiState(),
-        onInputElectricity = {},
-        onInputGas = {},
-        onInputWater = {},
-        onInputTrash = {},
+        onElectricityChange = {},
+        onGasChange = {},
+        onWaterChange = {},
+        onTrashChange = {},
         onResetClick = {},
         calculatorData = { CalculatorData.create(0.0, 0.0, 0.0, 0.0) }
     )

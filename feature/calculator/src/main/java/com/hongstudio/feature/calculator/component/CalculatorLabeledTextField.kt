@@ -29,7 +29,7 @@ import com.hongstudio.feature.calculator.model.CalculatorType
 internal fun CalculatorLabeledTextField(
     calculatorType: CalculatorType,
     input: String,
-    onInputChange: (String) -> Unit
+    onValueChange: (String) -> Unit
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -56,7 +56,7 @@ internal fun CalculatorLabeledTextField(
                 calculatorType = calculatorType,
                 modifier = Modifier.weight(1f),
                 input = input,
-                onInputChange = onInputChange
+                onValueChange = onValueChange
             )
             Text(modifier = Modifier.widthIn(min = 56.dp), text = "${calculatorType.unit}/월")
         }
@@ -68,7 +68,7 @@ private fun CalculatorTextField(
     calculatorType: CalculatorType,
     modifier: Modifier,
     input: String,
-    onInputChange: (String) -> Unit
+    onValueChange: (String) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -85,7 +85,7 @@ private fun CalculatorTextField(
         placeholder = { Text("숫자 입력") },
         onValueChange = { value ->
             if (value.count { it == '.' } < 2 && value.length <= 10) {
-                onInputChange(value)
+                onValueChange(value)
             }
         },
         singleLine = true,
@@ -103,6 +103,6 @@ private fun CalculatorLabeledTextFieldPreview() {
     CalculatorLabeledTextField(
         calculatorType = CalculatorType.ELECTRICITY,
         input = "123.456",
-        onInputChange = {}
+        onValueChange = {}
     )
 }

@@ -15,19 +15,19 @@ class CalculatorViewModel @Inject constructor() : ViewModel() {
     private val _uiState = MutableStateFlow(CalculatorUiState())
     val uiState: StateFlow<CalculatorUiState> = _uiState.asStateFlow()
 
-    fun onInputElectricity(electricityInput: String) {
+    fun onElectricityChange(electricityInput: String) {
         _uiState.value = _uiState.value.copy(electricityInput = electricityInput)
     }
 
-    fun onInputGas(gasInput: String) {
+    fun onGasChange(gasInput: String) {
         _uiState.value = _uiState.value.copy(gasInput = gasInput)
     }
 
-    fun onInputWater(waterInput: String) {
+    fun onWaterChange(waterInput: String) {
         _uiState.value = _uiState.value.copy(waterInput = waterInput)
     }
 
-    fun onInputTrash(trashInput: String) {
+    fun onTrashChange(trashInput: String) {
         _uiState.value = _uiState.value.copy(trashInput = trashInput)
     }
 
