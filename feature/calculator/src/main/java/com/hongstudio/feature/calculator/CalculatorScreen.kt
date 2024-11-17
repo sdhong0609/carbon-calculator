@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hongstudio.core.model.CalculatorData
+import com.hongstudio.core.model.CalculatorSelected
 import com.hongstudio.feature.calculator.component.CalculatorBottomButtons
 import com.hongstudio.feature.calculator.component.CalculatorLabeledTextField
 import com.hongstudio.feature.calculator.model.CalculatorType
@@ -24,6 +25,7 @@ import com.hongstudio.feature.calculator.model.CalculatorUiState
 @Composable
 internal fun CalculatorRoute(
     padding: PaddingValues,
+    calculatorSelected: CalculatorSelected,
     navigateToCalculatorResult: (CalculatorData) -> Unit,
     viewModel: CalculatorViewModel = hiltViewModel()
 ) {
@@ -32,6 +34,7 @@ internal fun CalculatorRoute(
     CalculatorScreen(
         padding = padding,
         uiState = uiState,
+        calculatorSelected = calculatorSelected,
         onElectricityChange = viewModel::onElectricityChange,
         onGasChange = viewModel::onGasChange,
         onWaterChange = viewModel::onWaterChange,
@@ -46,6 +49,7 @@ internal fun CalculatorRoute(
 private fun CalculatorScreen(
     padding: PaddingValues,
     uiState: CalculatorUiState,
+    calculatorSelected: CalculatorSelected,
     onElectricityChange: (String) -> Unit,
     onGasChange: (String) -> Unit,
     onWaterChange: (String) -> Unit,
@@ -56,6 +60,8 @@ private fun CalculatorScreen(
 ) {
     val scrollState = rememberScrollState()
 
+    val (isElectricitySelected, isGasSelected, isWaterSelected, isTrashSelected) = calculatorSelected
+
     Column(
         modifier = Modifier
             .padding(padding)
@@ -65,26 +71,34 @@ private fun CalculatorScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CalculatorLabeledTextField(
-            calculatorType = CalculatorType.ELECTRICITY,
-            input = uiState.electricityInput,
-            onValueChange = onElectricityChange
-        )
-        CalculatorLabeledTextField(
-            calculatorType = CalculatorType.GAS,
-            input = uiState.gasInput,
-            onValueChange = onGasChange
-        )
-        CalculatorLabeledTextField(
-            calculatorType = CalculatorType.WATER,
-            input = uiState.waterInput,
-            onValueChange = onWaterChange
-        )
-        CalculatorLabeledTextField(
-            calculatorType = CalculatorType.TRASH,
-            input = uiState.trashInput,
-            onValueChange = onTrashChange
-        )
+        if (isElectricitySelected) {
+            CalculatorLabeledTextField(
+                calculatorType = CalculatorType.ELECTRICITY,
+                input = uiState.electricityInput,
+                onValueChange = onElectricityChange
+            )
+        }
+        if (isGasSelected) {
+            CalculatorLabeledTextField(
+                calculatorType = CalculatorType.GAS,
+                input = uiState.gasInput,
+                onValueChange = onGasChange
+            )
+        }
+        if (isWaterSelected) {
+            CalculatorLabeledTextField(
+                calculatorType = CalculatorType.WATER,
+                input = uiState.waterInput,
+                onValueChange = onWaterChange
+            )
+        }
+        if (isTrashSelected) {
+            CalculatorLabeledTextField(
+                calculatorType = CalculatorType.TRASH,
+                input = uiState.trashInput,
+                onValueChange = onTrashChange
+            )
+        }
         CalculatorBottomButtons(
             onResetClick = onResetClick,
             onResultClick = {
@@ -101,6 +115,7 @@ private fun CalculatorScreenPreview() {
         padding = PaddingValues(),
         navigateToCalculatorResult = {},
         uiState = CalculatorUiState(),
+        calculatorSelected = CalculatorSelected(true, true, true, true),
         onElectricityChange = {},
         onGasChange = {},
         onWaterChange = {},

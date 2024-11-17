@@ -22,12 +22,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.hongstudio.core.model.CalculatorSelected
 import com.hongstudio.feature.calculator.model.CalculatorInstructionUiState
 
 @Composable
 internal fun CalculatorInstructionRoute(
     padding: PaddingValues,
-    navigateToCalculator: () -> Unit,
+    navigateToCalculator: (CalculatorSelected) -> Unit,
     viewModel: CalculatorInstructionViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -39,6 +40,7 @@ internal fun CalculatorInstructionRoute(
         onGasCheckedChange = viewModel::onGasCheckedChange,
         onWaterCheckedChange = viewModel::onWaterCheckedChange,
         onTrashCheckedChange = viewModel::onTrashCheckedChange,
+        createCalculatorSelected = viewModel::createCalculatorSelected,
         navigateToCalculator = navigateToCalculator
     )
 }
@@ -51,7 +53,8 @@ private fun CalculatorInstructionScreen(
     onGasCheckedChange: (Boolean) -> Unit,
     onWaterCheckedChange: (Boolean) -> Unit,
     onTrashCheckedChange: (Boolean) -> Unit,
-    navigateToCalculator: () -> Unit
+    createCalculatorSelected: () -> CalculatorSelected,
+    navigateToCalculator: (CalculatorSelected) -> Unit
 ) {
     val scrollState = rememberScrollState()
 
@@ -125,7 +128,9 @@ private fun CalculatorInstructionScreen(
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = navigateToCalculator) {
+        Button(onClick = {
+            navigateToCalculator(createCalculatorSelected())
+        }) {
             Text(modifier = Modifier.padding(8.dp), text = "계산기 시작")
         }
     }
@@ -141,6 +146,7 @@ private fun CalculatorInstructionScreenPreview() {
         onGasCheckedChange = {},
         onWaterCheckedChange = {},
         onTrashCheckedChange = {},
+        createCalculatorSelected = { CalculatorSelected(true, true, true, true) },
         navigateToCalculator = {}
     )
 }

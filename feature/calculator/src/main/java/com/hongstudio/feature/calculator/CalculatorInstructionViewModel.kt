@@ -1,6 +1,7 @@
 package com.hongstudio.feature.calculator
 
 import androidx.lifecycle.ViewModel
+import com.hongstudio.core.model.CalculatorSelected
 import com.hongstudio.feature.calculator.model.CalculatorInstructionUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,4 +30,11 @@ class CalculatorInstructionViewModel @Inject constructor() : ViewModel() {
     fun onTrashCheckedChange(isChecked: Boolean) {
         _uiState.value = _uiState.value.copy(isTrashChecked = isChecked)
     }
+
+    fun createCalculatorSelected() = CalculatorSelected(
+        isElectricityChecked = _uiState.value.isElectricityChecked,
+        isGasChecked = _uiState.value.isGasChecked,
+        isWaterChecked = _uiState.value.isWaterChecked,
+        isTrashChecked = _uiState.value.isTrashChecked
+    )
 }
