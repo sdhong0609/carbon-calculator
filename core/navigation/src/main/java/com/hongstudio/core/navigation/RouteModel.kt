@@ -5,12 +5,15 @@ import kotlinx.serialization.Serializable
 
 sealed interface Route {
     @Serializable
+    data object Calculator : Route
+
+    @Serializable
     data class CalculatorResult(val calculatorData: CalculatorData) : Route
 }
 
 sealed interface MainTabRoute {
     @Serializable
-    data object Calculator : MainTabRoute
+    data object CalculatorInstruction : MainTabRoute
 
     @Serializable
     data object History : MainTabRoute

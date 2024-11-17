@@ -9,6 +9,7 @@ import com.hongstudio.core.model.CalculatorData
 import com.hongstudio.core.navigation.CalculatorDataNavType
 import com.hongstudio.core.navigation.MainTabRoute
 import com.hongstudio.core.navigation.Route
+import com.hongstudio.feature.calculator.CalculatorInstructionRoute
 import com.hongstudio.feature.calculator.CalculatorResultRoute
 import com.hongstudio.feature.calculator.CalculatorRoute
 import kotlin.reflect.typeOf
@@ -21,7 +22,11 @@ fun NavGraphBuilder.calculatorNavGraph(
     padding: PaddingValues,
     navigateToCalculatorResult: (CalculatorData) -> Unit,
 ) {
-    composable<MainTabRoute.Calculator> {
+    composable<MainTabRoute.CalculatorInstruction> {
+        CalculatorInstructionRoute(padding = padding)
+    }
+
+    composable<Route.Calculator> {
         CalculatorRoute(
             padding = padding,
             navigateToCalculatorResult = navigateToCalculatorResult

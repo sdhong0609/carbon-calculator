@@ -10,7 +10,7 @@ internal enum class MainTab(
     CALCULATOR(
         title = "계산기",
         iconResId = R.drawable.ic_calculator,
-        route = MainTabRoute.Calculator,
+        route = MainTabRoute.CalculatorInstruction,
     ),
     HISTORY(
         title = "내 계산 보기",
