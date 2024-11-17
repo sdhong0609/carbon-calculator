@@ -7,35 +7,32 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.hongstudio.core.model.CalculatorData
-import java.util.Locale
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.hongstudio.feature.calculator.model.CalculatorResultUiState
 
 @Composable
 internal fun CalculatorResultRoute(
     padding: PaddingValues,
-    calculatorData: CalculatorData
+    viewModel: CalculatorResultViewModel = hiltViewModel()
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     CalculatorResultScreen(
         padding = padding,
-        calculatorData = calculatorData
+        uiState = uiState
     )
 }
 
 @Composable
-internal fun CalculatorResultScreen(
+private fun CalculatorResultScreen(
     padding: PaddingValues,
-    calculatorData: CalculatorData
+    uiState: CalculatorResultUiState
 ) {
-    val (electricity, gas, water, trash) = calculatorData
-    val total = String.format(
-        Locale.getDefault(),
-        "%,.1f",
-        electricity * 0.4781 + gas * 2.176 + water * 0.237 + trash * 0.9529
-    )
-
     Column(
         modifier = Modifier
             .padding(padding)
@@ -44,7 +41,7 @@ internal fun CalculatorResultScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text("총 CO₂ 발생량")
-        Text("$total kg/월")
+        Text("${uiState.total} kg/월")
     }
 }
 
@@ -53,6 +50,6 @@ internal fun CalculatorResultScreen(
 private fun CalculatorResultScreenPreview() {
     CalculatorResultScreen(
         padding = PaddingValues(),
-        calculatorData = CalculatorData(0.0, 0.0, 0.0, 0.0)
+        uiState = CalculatorResultUiState()
     )
 }

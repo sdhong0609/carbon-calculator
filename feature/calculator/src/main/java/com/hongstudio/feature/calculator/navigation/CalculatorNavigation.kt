@@ -7,10 +7,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.hongstudio.core.model.CalculatorData
 import com.hongstudio.core.model.CalculatorSelected
-import com.hongstudio.core.navigation.CalculatorDataNavType
 import com.hongstudio.core.navigation.CalculatorSelectedNavType
 import com.hongstudio.core.navigation.MainTabRoute
 import com.hongstudio.core.navigation.Route
+import com.hongstudio.core.navigation.calculatorDataTypeMap
 import com.hongstudio.feature.calculator.CalculatorInstructionRoute
 import com.hongstudio.feature.calculator.CalculatorResultRoute
 import com.hongstudio.feature.calculator.CalculatorRoute
@@ -48,12 +48,8 @@ fun NavGraphBuilder.calculatorNavGraph(
     }
 
     composable<Route.CalculatorResult>(
-        typeMap = mapOf(typeOf<CalculatorData>() to CalculatorDataNavType)
-    ) { navBackStackEntry ->
-        val calculatorData = navBackStackEntry.toRoute<Route.CalculatorResult>().calculatorData
-        CalculatorResultRoute(
-            padding = padding,
-            calculatorData = calculatorData
-        )
+        typeMap = calculatorDataTypeMap
+    ) {
+        CalculatorResultRoute(padding = padding)
     }
 }
