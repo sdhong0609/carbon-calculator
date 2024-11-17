@@ -14,16 +14,24 @@ import com.hongstudio.feature.calculator.CalculatorResultRoute
 import com.hongstudio.feature.calculator.CalculatorRoute
 import kotlin.reflect.typeOf
 
+fun NavController.navigateCalculator() {
+    navigate(Route.Calculator)
+}
+
 fun NavController.navigateCalculatorResult(calculatorData: CalculatorData) {
     navigate(Route.CalculatorResult(calculatorData = calculatorData))
 }
 
 fun NavGraphBuilder.calculatorNavGraph(
     padding: PaddingValues,
+    navigateToCalculator: () -> Unit,
     navigateToCalculatorResult: (CalculatorData) -> Unit,
 ) {
     composable<MainTabRoute.CalculatorInstruction> {
-        CalculatorInstructionRoute(padding = padding)
+        CalculatorInstructionRoute(
+            padding = padding,
+            navigateToCalculator = navigateToCalculator
+        )
     }
 
     composable<Route.Calculator> {
