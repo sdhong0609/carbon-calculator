@@ -9,22 +9,36 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.hongstudio.feature.calculator.model.CalculatorInstructionUiState
 
 @Composable
 internal fun CalculatorInstructionRoute(
     padding: PaddingValues,
-    navigateToCalculator: () -> Unit
+    navigateToCalculator: () -> Unit,
+    viewModel: CalculatorInstructionViewModel = hiltViewModel()
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     CalculatorInstructionScreen(
         padding = padding,
+        uiState = uiState,
+        onElectricityCheckedChange = viewModel::onElectricityCheckedChange,
+        onGasCheckedChange = viewModel::onGasCheckedChange,
+        onWaterCheckedChange = viewModel::onWaterCheckedChange,
+        onTrashCheckedChange = viewModel::onTrashCheckedChange,
         navigateToCalculator = navigateToCalculator
     )
 }
@@ -32,11 +46,19 @@ internal fun CalculatorInstructionRoute(
 @Composable
 private fun CalculatorInstructionScreen(
     padding: PaddingValues,
+    uiState: CalculatorInstructionUiState,
+    onElectricityCheckedChange: (Boolean) -> Unit,
+    onGasCheckedChange: (Boolean) -> Unit,
+    onWaterCheckedChange: (Boolean) -> Unit,
+    onTrashCheckedChange: (Boolean) -> Unit,
     navigateToCalculator: () -> Unit
 ) {
+    val scrollState = rememberScrollState()
+
     Column(
         modifier = Modifier
             .padding(padding)
+            .verticalScroll(scrollState)
             .padding(all = 16.dp)
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -51,8 +73,9 @@ private fun CalculatorInstructionScreen(
             text = "사용 방법\n" +
                     "1. 아래 항목 중 계산기에 입력할 항목을 선택합니다.\n" +
                     "2. 다음 화면에서 각 항목에 대한 사용량을 입력합니다.\n" +
-                    "3. 결과 화면에서 총 CO₂ 발생량을 확인합니다.\n"
+                    "3. 결과 화면에서 총 CO₂ 발생량을 확인합니다."
         )
+        Spacer(modifier = Modifier.height(16.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -62,8 +85,8 @@ private fun CalculatorInstructionScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Checkbox(
-                    checked = true,
-                    onCheckedChange = { }
+                    checked = uiState.isElectricityChecked,
+                    onCheckedChange = onElectricityCheckedChange
                 )
                 Text("전기")
             }
@@ -71,8 +94,8 @@ private fun CalculatorInstructionScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Checkbox(
-                    checked = true,
-                    onCheckedChange = { }
+                    checked = uiState.isGasChecked,
+                    onCheckedChange = onGasCheckedChange
                 )
                 Text("가스")
             }
@@ -86,8 +109,8 @@ private fun CalculatorInstructionScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Checkbox(
-                    checked = true,
-                    onCheckedChange = { }
+                    checked = uiState.isWaterChecked,
+                    onCheckedChange = onWaterCheckedChange
                 )
                 Text("수도")
             }
@@ -95,8 +118,8 @@ private fun CalculatorInstructionScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Checkbox(
-                    checked = true,
-                    onCheckedChange = { }
+                    checked = uiState.isTrashChecked,
+                    onCheckedChange = onTrashCheckedChange
                 )
                 Text("생활 폐기물")
             }
@@ -113,6 +136,11 @@ private fun CalculatorInstructionScreen(
 private fun CalculatorInstructionScreenPreview() {
     CalculatorInstructionScreen(
         padding = PaddingValues(),
+        uiState = CalculatorInstructionUiState(),
+        onElectricityCheckedChange = {},
+        onGasCheckedChange = {},
+        onWaterCheckedChange = {},
+        onTrashCheckedChange = {},
         navigateToCalculator = {}
     )
 }
