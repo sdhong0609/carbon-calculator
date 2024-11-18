@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
 import com.hongstudio.core.model.CalculatorData
 import com.hongstudio.core.model.CalculatorSelected
 import com.hongstudio.core.navigation.MainTabRoute
@@ -37,10 +36,8 @@ fun NavGraphBuilder.calculatorNavGraph(
     composable<Route.Calculator>(
         typeMap = TypeMap.calculatorSelectedTypeMap
     ) { navBackStackEntry ->
-        val calculatorSelected = navBackStackEntry.toRoute<Route.Calculator>().calculatorSelected
         CalculatorRoute(
             padding = padding,
-            calculatorSelected = calculatorSelected,
             navigateToCalculatorResult = navigateToCalculatorResult
         )
     }

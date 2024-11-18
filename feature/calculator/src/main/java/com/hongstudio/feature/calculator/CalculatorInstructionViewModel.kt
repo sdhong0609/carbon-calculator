@@ -32,9 +32,9 @@ class CalculatorInstructionViewModel @Inject constructor() : ViewModel() {
     }
 
     fun createCalculatorSelected() = CalculatorSelected(
-        isElectricityChecked = _uiState.value.isElectricityChecked,
-        isGasChecked = _uiState.value.isGasChecked,
-        isWaterChecked = _uiState.value.isWaterChecked,
-        isTrashChecked = _uiState.value.isTrashChecked
+        isElectricitySelected = _uiState.value.isElectricityChecked,
+        isGasSelected = _uiState.value.isGasChecked,
+        isWaterSelected = _uiState.value.isWaterChecked,
+        isTrashSelected = _uiState.value.isTrashChecked
     )
 }

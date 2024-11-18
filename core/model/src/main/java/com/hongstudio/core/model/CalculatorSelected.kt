@@ -4,8 +4,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CalculatorSelected(
-    val isElectricityChecked: Boolean,
-    val isGasChecked: Boolean,
-    val isWaterChecked: Boolean,
-    val isTrashChecked: Boolean
+    val isElectricitySelected: Boolean,
+    val isGasSelected: Boolean,
+    val isWaterSelected: Boolean,
+    val isTrashSelected: Boolean
 )
