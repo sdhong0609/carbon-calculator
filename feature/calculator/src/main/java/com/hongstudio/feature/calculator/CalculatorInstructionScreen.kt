@@ -13,9 +13,13 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hongstudio.core.model.CalculatorSelected
 import com.hongstudio.feature.calculator.model.CalculatorInstructionUiState
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun CalculatorInstructionRoute(
@@ -57,6 +62,8 @@ private fun CalculatorInstructionScreen(
     navigateToCalculator: (CalculatorSelected) -> Unit
 ) {
     val scrollState = rememberScrollState()
+    val coroutineScope = rememberCoroutineScope()
+    val snackBarHostState = remember { SnackbarHostState() }
 
     Column(
         modifier = Modifier
@@ -129,10 +136,18 @@ private fun CalculatorInstructionScreen(
         }
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
-            navigateToCalculator(createCalculatorSelected())
+            val calculatorSelected = createCalculatorSelected()
+            if (calculatorSelected.isAnySelected) {
+                navigateToCalculator(calculatorSelected)
+            } else {
+                coroutineScope.launch {
+                    snackBarHostState.showSnackbar("계산할 항목을 선택해 주세요")
+                }
+            }
         }) {
             Text(modifier = Modifier.padding(8.dp), text = "계산기 시작")
         }
+        SnackbarHost(snackBarHostState)
     }
 }
 
