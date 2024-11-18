@@ -3,7 +3,9 @@ package com.hongstudio.feature.calculator
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -59,6 +61,8 @@ private fun CalculatorScreen(
     Column(
         modifier = Modifier
             .padding(padding)
+            .consumeWindowInsets(padding)
+            .imePadding()
             .fillMaxWidth()
             .verticalScroll(state = scrollState)
             .padding(all = 16.dp),
