@@ -37,7 +37,7 @@ internal fun CalculatorRoute(
         onWaterChange = viewModel::onWaterChange,
         onTrashChange = viewModel::onTrashChange,
         onResetClick = viewModel::onResetClick,
-        calculatorData = viewModel::createCalculatorData,
+        createCalculatorData = viewModel::createCalculatorData,
         navigateToCalculatorResult = navigateToCalculatorResult
     )
 }
@@ -51,7 +51,7 @@ private fun CalculatorScreen(
     onWaterChange: (String) -> Unit,
     onTrashChange: (String) -> Unit,
     onResetClick: () -> Unit,
-    calculatorData: () -> CalculatorData,
+    createCalculatorData: () -> CalculatorData,
     navigateToCalculatorResult: (CalculatorData) -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -96,7 +96,7 @@ private fun CalculatorScreen(
         CalculatorBottomButtons(
             onResetClick = onResetClick,
             onResultClick = {
-                navigateToCalculatorResult(calculatorData())
+                navigateToCalculatorResult(createCalculatorData())
             }
         )
     }
@@ -108,12 +108,12 @@ private fun CalculatorScreenPreview() {
     CalculatorScreen(
         padding = PaddingValues(),
         navigateToCalculatorResult = {},
-        uiState = CalculatorUiState(),
+        uiState = CalculatorUiState.DEFAULT,
         onElectricityChange = {},
         onGasChange = {},
         onWaterChange = {},
         onTrashChange = {},
         onResetClick = {},
-        calculatorData = { CalculatorData(0.0, 0.0, 0.0, 0.0) }
+        createCalculatorData = { CalculatorData(0.0, 0.0, 0.0, 0.0) }
     )
 }

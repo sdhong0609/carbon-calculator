@@ -35,7 +35,7 @@ fun NavGraphBuilder.calculatorNavGraph(
 
     composable<Route.Calculator>(
         typeMap = TypeMap.calculatorSelectedTypeMap
-    ) { navBackStackEntry ->
+    ) {
         CalculatorRoute(
             padding = padding,
             navigateToCalculatorResult = navigateToCalculatorResult

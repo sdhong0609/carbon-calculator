@@ -18,7 +18,7 @@ class CalculatorViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(CalculatorUiState())
+    private val _uiState = MutableStateFlow(CalculatorUiState.DEFAULT)
     val uiState: StateFlow<CalculatorUiState> = _uiState.asStateFlow()
 
     private val calculatorSelected =
@@ -50,7 +50,12 @@ class CalculatorViewModel @Inject constructor(
     }
 
     fun onResetClick() {
-        _uiState.value = CalculatorUiState()
+        _uiState.value = CalculatorUiState(
+            isElectricityVisible = calculatorSelected.isElectricitySelected,
+            isGasVisible = calculatorSelected.isGasSelected,
+            isWaterVisible = calculatorSelected.isWaterSelected,
+            isTrashVisible = calculatorSelected.isTrashSelected
+        )
     }
 
     fun createCalculatorData() = CalculatorData(
