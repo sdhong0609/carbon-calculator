@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.navigation.toRoute
 import com.hongstudio.core.navigation.Route
-import com.hongstudio.core.navigation.calculatorDataTypeMap
+import com.hongstudio.core.navigation.TypeMap
 import com.hongstudio.feature.calculator.model.CalculatorResultUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +22,7 @@ class CalculatorResultViewModel @Inject constructor(
     val uiState: StateFlow<CalculatorResultUiState> = _uiState.asStateFlow()
 
     private val calculatorData =
-        savedStateHandle.toRoute<Route.CalculatorResult>(calculatorDataTypeMap).calculatorData
+        savedStateHandle.toRoute<Route.CalculatorResult>(TypeMap.calculatorDataTypeMap).calculatorData
 
     init {
         val (electricity, gas, water, trash) = calculatorData
