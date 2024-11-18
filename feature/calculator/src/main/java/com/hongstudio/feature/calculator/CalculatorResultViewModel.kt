@@ -18,7 +18,7 @@ class CalculatorResultViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(CalculatorResultUiState())
+    private val _uiState = MutableStateFlow(CalculatorResultUiState.DEFAULT)
     val uiState: StateFlow<CalculatorResultUiState> = _uiState.asStateFlow()
 
     private val calculatorData =

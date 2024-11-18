@@ -12,7 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CalculatorInstructionViewModel @Inject constructor() : ViewModel() {
 
-    private val _uiState = MutableStateFlow(CalculatorInstructionUiState())
+    private val _uiState = MutableStateFlow(CalculatorInstructionUiState.DEFAULT)
     val uiState: StateFlow<CalculatorInstructionUiState> = _uiState.asStateFlow()
 
     fun onElectricityCheckedChange(isChecked: Boolean) {

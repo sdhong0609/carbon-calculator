@@ -141,7 +141,7 @@ private fun CalculatorInstructionScreen(
 private fun CalculatorInstructionScreenPreview() {
     CalculatorInstructionScreen(
         padding = PaddingValues(),
-        uiState = CalculatorInstructionUiState(),
+        uiState = CalculatorInstructionUiState.DEFAULT,
         onElectricityCheckedChange = {},
         onGasCheckedChange = {},
         onWaterCheckedChange = {},
