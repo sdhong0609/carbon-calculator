@@ -3,7 +3,7 @@ package com.hongstudio.feature.calculator
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.navigation.toRoute
-import com.hongstudio.core.model.CalculatorData
+import com.hongstudio.core.navigation.Route
 import com.hongstudio.core.navigation.calculatorDataTypeMap
 import com.hongstudio.feature.calculator.model.CalculatorResultUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +21,8 @@ class CalculatorResultViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(CalculatorResultUiState())
     val uiState: StateFlow<CalculatorResultUiState> = _uiState.asStateFlow()
 
-    private val calculatorData = savedStateHandle.toRoute<CalculatorData>(calculatorDataTypeMap)
+    private val calculatorData =
+        savedStateHandle.toRoute<Route.CalculatorResult>(calculatorDataTypeMap).calculatorData
 
     init {
         val (electricity, gas, water, trash) = calculatorData
