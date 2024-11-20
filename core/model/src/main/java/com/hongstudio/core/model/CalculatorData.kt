@@ -8,4 +8,6 @@ data class CalculatorData(
     val gas: Double,
     val water: Double,
     val trash: Double
-)
+) {
+    val total = electricity * 0.4781 + gas * 2.176 + water * 0.237 + trash * 0.9529
+}
