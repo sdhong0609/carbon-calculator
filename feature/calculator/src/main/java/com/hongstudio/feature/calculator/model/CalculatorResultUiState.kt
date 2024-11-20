@@ -1,11 +1,11 @@
 package com.hongstudio.feature.calculator.model
 
 data class CalculatorResultUiState(
-    val total: String
+    val total: Double
 ) {
     companion object {
         val DEFAULT = CalculatorResultUiState(
-            total = ""
+            total = 0.0
         )
     }
 }

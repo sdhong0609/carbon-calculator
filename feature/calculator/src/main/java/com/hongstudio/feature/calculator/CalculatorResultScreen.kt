@@ -33,6 +33,13 @@ private fun CalculatorResultScreen(
     padding: PaddingValues,
     uiState: CalculatorResultUiState
 ) {
+    val totalValue = "%,.1f".format(uiState.total)
+    val formattedTotal = if (totalValue.endsWith(".0")) {
+        totalValue.dropLast(2)
+    } else {
+        totalValue
+    }
+
     Column(
         modifier = Modifier
             .padding(padding)
@@ -41,7 +48,7 @@ private fun CalculatorResultScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text("총 CO₂ 발생량")
-        Text("${uiState.total} kg/월")
+        Text("$formattedTotal kg/월")
     }
 }
 
