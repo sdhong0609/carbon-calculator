@@ -24,6 +24,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hongstudio.feature.calculator.model.CalculatorType
+import com.hongstudio.feature.calculator.util.DecimalFormatter
+import com.hongstudio.feature.calculator.util.DecimalInputVisualTransformation
 
 @Composable
 internal fun CalculatorLabeledTextField(
@@ -79,13 +81,15 @@ private fun CalculatorTextField(
         KeyboardActions(onDone = { focusManager.clearFocus() })
     }
 
+    val decimalFormatter = DecimalFormatter()
+
     OutlinedTextField(
         modifier = modifier,
         value = input,
         placeholder = { Text("숫자 입력") },
         onValueChange = { value ->
-            if (value.count { it == '.' } < 2 && value.length <= 10) {
-                onValueChange(value)
+            if (value.length <= 10) {
+                onValueChange(decimalFormatter.format(value))
             }
         },
         singleLine = true,
@@ -93,7 +97,8 @@ private fun CalculatorTextField(
             keyboardType = KeyboardType.Decimal,
             imeAction = imeAction
         ),
-        keyboardActions = keyboardActions
+        keyboardActions = keyboardActions,
+        visualTransformation = DecimalInputVisualTransformation(decimalFormatter)
     )
 }
 
