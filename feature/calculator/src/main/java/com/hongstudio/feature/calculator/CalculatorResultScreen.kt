@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -47,8 +48,8 @@ private fun CalculatorResultScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("총 CO₂ 발생량")
-        Text("$formattedTotal kg/월")
+        Text(stringResource(R.string.total_co2_title))
+        Text(stringResource(R.string.total_co2, formattedTotal))
     }
 }
 

@@ -45,7 +45,7 @@ class CalculatorInstructionViewModel @Inject constructor() : ViewModel() {
             if (_uiState.value.isAnyChecked) {
                 _event.emit(CalculatorInstructionEvent.NavigateToCalculator(createCalculatorSelected()))
             } else {
-                _event.emit(CalculatorInstructionEvent.ShowSnackBar("계산할 항목을 선택해 주세요"))
+                _event.emit(CalculatorInstructionEvent.ShowSnackBar(R.string.please_select_item))
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.hongstudio.feature.calculator.model
 
+import androidx.annotation.StringRes
 import com.hongstudio.core.model.CalculatorSelected
 
 sealed interface CalculatorInstructionEvent {
@@ -7,5 +8,5 @@ sealed interface CalculatorInstructionEvent {
         val calculatorSelected: CalculatorSelected
     ) : CalculatorInstructionEvent
 
-    data class ShowSnackBar(val message: String) : CalculatorInstructionEvent
+    data class ShowSnackBar(@StringRes val messageId: Int) : CalculatorInstructionEvent
 }

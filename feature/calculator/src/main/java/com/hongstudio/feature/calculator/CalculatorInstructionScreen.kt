@@ -24,6 +24,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -47,6 +49,8 @@ internal fun CalculatorInstructionRoute(
     val snackBarHostState = remember { SnackbarHostState() }
     val lifecycleOwner = LocalLifecycleOwner.current
 
+    val context = LocalContext.current
+
     LaunchedEffect(Unit) {
         lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
             viewModel.event.collectLatest { event ->
@@ -56,7 +60,7 @@ internal fun CalculatorInstructionRoute(
                     }
 
                     is CalculatorInstructionEvent.ShowSnackBar -> {
-                        snackBarHostState.showSnackbar(event.message)
+                        snackBarHostState.showSnackbar(context.getString(event.messageId))
                     }
                 }
             }
@@ -105,15 +109,11 @@ private fun CalculatorInstructionScreen(
     ) {
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = "탄소발자국은 일상 속 다양한 활동에서 얼마나 많은 탄소가 배출되고 있는지 나타내는 지표입니다." +
-                    "\n\n탄소발자국 계산을 통해 우리의 일상이 기후변화에 어느 정도로 영향을 미치고 있는지 간접적으로 확인할 수 있습니다.\n"
+            text = stringResource(R.string.instruction_1)
         )
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = "사용 방법\n" +
-                    "1. 아래 항목 중 계산기에 입력할 항목을 선택합니다.\n" +
-                    "2. 다음 화면에서 각 항목에 대한 사용량을 입력합니다.\n" +
-                    "3. 결과 화면에서 총 CO₂ 발생량을 확인합니다."
+            text = stringResource(R.string.instruction_2)
         )
         Spacer(modifier = Modifier.height(16.dp))
         LazyVerticalGrid(
@@ -147,7 +147,10 @@ private fun CalculatorInstructionScreen(
                 }
             )
         ) {
-            Text(modifier = Modifier.padding(8.dp), text = "계산기 시작")
+            Text(
+                modifier = Modifier.padding(8.dp),
+                text = stringResource(R.string.start_calculator)
+            )
         }
         SnackbarHost(snackBarHostState)
     }

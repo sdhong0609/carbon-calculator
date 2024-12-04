@@ -72,7 +72,7 @@ class CalculatorViewModel @Inject constructor(
             if (_uiState.value.isAllInputFilled) {
                 _event.emit(CalculatorEvent.NavigateToCalculatorResult(createCalculatorData()))
             } else {
-                _event.emit(CalculatorEvent.ShowSnackBar("모든 입력란을 채워주세요"))
+                _event.emit(CalculatorEvent.ShowSnackBar(R.string.please_fill_all_input))
             }
         }
     }
