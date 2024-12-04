@@ -24,6 +24,6 @@ class CalculatorResultViewModel @Inject constructor(
         savedStateHandle.toRoute<Route.CalculatorResult>(TypeMap.calculatorDataTypeMap).calculatorData.total
 
     init {
-        _uiState.value = _uiState.value.copy(total = total)
+        _uiState.value = CalculatorResultUiState(total = total)
     }
 }

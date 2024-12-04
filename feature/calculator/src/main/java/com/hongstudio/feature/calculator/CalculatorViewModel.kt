@@ -11,6 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,7 +26,7 @@ class CalculatorViewModel @Inject constructor(
         savedStateHandle.toRoute<Route.Calculator>(TypeMap.calculatorSelectedTypeMap).calculatorSelected
 
     init {
-        _uiState.value = _uiState.value.copy(
+        _uiState.value = CalculatorUiState(
             isElectricityVisible = calculatorSelected.isElectricitySelected,
             isGasVisible = calculatorSelected.isGasSelected,
             isWaterVisible = calculatorSelected.isWaterSelected,
@@ -34,19 +35,19 @@ class CalculatorViewModel @Inject constructor(
     }
 
     fun onElectricityChange(electricityInput: String) {
-        _uiState.value = _uiState.value.copy(electricityInput = electricityInput)
+        _uiState.update { it.copy(electricityInput = electricityInput) }
     }
 
     fun onGasChange(gasInput: String) {
-        _uiState.value = _uiState.value.copy(gasInput = gasInput)
+        _uiState.update { it.copy(gasInput = gasInput) }
     }
 
     fun onWaterChange(waterInput: String) {
-        _uiState.value = _uiState.value.copy(waterInput = waterInput)
+        _uiState.update { it.copy(waterInput = waterInput) }
     }
 
     fun onTrashChange(trashInput: String) {
-        _uiState.value = _uiState.value.copy(trashInput = trashInput)
+        _uiState.update { it.copy(trashInput = trashInput) }
     }
 
     fun onResetClick() {
