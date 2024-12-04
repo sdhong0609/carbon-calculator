@@ -18,19 +18,22 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.hongstudio.core.model.CalculatorSelected
 import com.hongstudio.feature.calculator.model.CalculatorCheckbox
+import com.hongstudio.feature.calculator.model.CalculatorInstructionEvent
 import com.hongstudio.feature.calculator.model.CalculatorInstructionUiState
-import kotlinx.coroutines.launch
 
 @Composable
 internal fun CalculatorInstructionRoute(
@@ -39,16 +42,34 @@ internal fun CalculatorInstructionRoute(
     viewModel: CalculatorInstructionViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val snackBarHostState = remember { SnackbarHostState() }
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(Unit) {
+        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.event.collect { event ->
+                when (event) {
+                    is CalculatorInstructionEvent.NavigateToCalculator -> {
+                        navigateToCalculator(event.calculatorSelected)
+                    }
+
+                    is CalculatorInstructionEvent.ShowSnackBar -> {
+                        snackBarHostState.showSnackbar(event.message)
+                    }
+                }
+            }
+        }
+    }
 
     CalculatorInstructionScreen(
         padding = padding,
         uiState = uiState,
+        snackBarHostState = snackBarHostState,
         onElectricityCheckedChange = viewModel::onElectricityCheckedChange,
         onGasCheckedChange = viewModel::onGasCheckedChange,
         onWaterCheckedChange = viewModel::onWaterCheckedChange,
         onTrashCheckedChange = viewModel::onTrashCheckedChange,
-        createCalculatorSelected = viewModel::createCalculatorSelected,
-        navigateToCalculator = navigateToCalculator
+        onStartCalculatorClick = viewModel::onStartCalculatorClick
     )
 }
 
@@ -56,16 +77,14 @@ internal fun CalculatorInstructionRoute(
 private fun CalculatorInstructionScreen(
     padding: PaddingValues,
     uiState: CalculatorInstructionUiState,
+    snackBarHostState: SnackbarHostState,
     onElectricityCheckedChange: (Boolean) -> Unit,
     onGasCheckedChange: (Boolean) -> Unit,
     onWaterCheckedChange: (Boolean) -> Unit,
     onTrashCheckedChange: (Boolean) -> Unit,
-    createCalculatorSelected: () -> CalculatorSelected,
-    navigateToCalculator: (CalculatorSelected) -> Unit
+    onStartCalculatorClick: () -> Unit
 ) {
     val scrollState = rememberScrollState()
-    val coroutineScope = rememberCoroutineScope()
-    val snackBarHostState = remember { SnackbarHostState() }
 
     val checkboxes = listOf(
         CalculatorCheckbox("전기", uiState.isElectricityChecked, onElectricityCheckedChange),
@@ -116,16 +135,7 @@ private fun CalculatorInstructionScreen(
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = {
-            val calculatorSelected = createCalculatorSelected()
-            if (calculatorSelected.isAnySelected) {
-                navigateToCalculator(calculatorSelected)
-            } else {
-                coroutineScope.launch {
-                    snackBarHostState.showSnackbar("계산할 항목을 선택해 주세요")
-                }
-            }
-        }) {
+        Button(onClick = onStartCalculatorClick) {
             Text(modifier = Modifier.padding(8.dp), text = "계산기 시작")
         }
         SnackbarHost(snackBarHostState)
@@ -138,11 +148,11 @@ private fun CalculatorInstructionScreenPreview() {
     CalculatorInstructionScreen(
         padding = PaddingValues(),
         uiState = CalculatorInstructionUiState.DEFAULT,
+        snackBarHostState = remember { SnackbarHostState() },
         onElectricityCheckedChange = {},
         onGasCheckedChange = {},
         onWaterCheckedChange = {},
         onTrashCheckedChange = {},
-        createCalculatorSelected = { CalculatorSelected(true, true, true, true) },
-        navigateToCalculator = {}
+        onStartCalculatorClick = {}
     )
 }
