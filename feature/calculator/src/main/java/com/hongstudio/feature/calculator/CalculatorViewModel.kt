@@ -2,16 +2,21 @@ package com.hongstudio.feature.calculator
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.hongstudio.core.model.CalculatorData
 import com.hongstudio.core.navigation.Route
 import com.hongstudio.core.navigation.TypeMap
+import com.hongstudio.feature.calculator.model.CalculatorEvent
 import com.hongstudio.feature.calculator.model.CalculatorUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,6 +26,9 @@ class CalculatorViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(CalculatorUiState.DEFAULT)
     val uiState: StateFlow<CalculatorUiState> = _uiState.asStateFlow()
+
+    private val _event = MutableSharedFlow<CalculatorEvent>()
+    val event = _event.asSharedFlow()
 
     private val calculatorSelected =
         savedStateHandle.toRoute<Route.Calculator>(TypeMap.calculatorSelectedTypeMap).calculatorSelected
@@ -59,7 +67,13 @@ class CalculatorViewModel @Inject constructor(
         )
     }
 
-    fun createCalculatorData() = CalculatorData(
+    fun onResultClick() {
+        viewModelScope.launch {
+            _event.emit(CalculatorEvent.NavigateToCalculatorResult(createCalculatorData()))
+        }
+    }
+
+    private fun createCalculatorData() = CalculatorData(
         electricity = _uiState.value.electricityInput.ifEmpty { "0" }.toDouble(),
         gas = _uiState.value.gasInput.ifEmpty { "0" }.toDouble(),
         water = _uiState.value.waterInput.ifEmpty { "0" }.toDouble(),

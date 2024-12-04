@@ -10,18 +10,24 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.hongstudio.core.model.CalculatorData
 import com.hongstudio.feature.calculator.component.CalculatorBottomButtons
 import com.hongstudio.feature.calculator.component.CalculatorLabeledTextField
+import com.hongstudio.feature.calculator.model.CalculatorEvent
 import com.hongstudio.feature.calculator.model.CalculatorType
 import com.hongstudio.feature.calculator.model.CalculatorUiState
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 internal fun CalculatorRoute(
@@ -30,6 +36,19 @@ internal fun CalculatorRoute(
     viewModel: CalculatorViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(Unit) {
+        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.event.collectLatest { event ->
+                when (event) {
+                    is CalculatorEvent.NavigateToCalculatorResult -> {
+                        navigateToCalculatorResult(event.calculatorData)
+                    }
+                }
+            }
+        }
+    }
 
     CalculatorScreen(
         padding = padding,
@@ -39,8 +58,7 @@ internal fun CalculatorRoute(
         onWaterChange = viewModel::onWaterChange,
         onTrashChange = viewModel::onTrashChange,
         onResetClick = viewModel::onResetClick,
-        createCalculatorData = viewModel::createCalculatorData,
-        navigateToCalculatorResult = navigateToCalculatorResult
+        onResultClick = viewModel::onResultClick
     )
 }
 
@@ -53,8 +71,7 @@ private fun CalculatorScreen(
     onWaterChange: (String) -> Unit,
     onTrashChange: (String) -> Unit,
     onResetClick: () -> Unit,
-    createCalculatorData: () -> CalculatorData,
-    navigateToCalculatorResult: (CalculatorData) -> Unit,
+    onResultClick: () -> Unit
 ) {
     val scrollState = rememberScrollState()
 
@@ -99,9 +116,7 @@ private fun CalculatorScreen(
         }
         CalculatorBottomButtons(
             onResetClick = onResetClick,
-            onResultClick = {
-                navigateToCalculatorResult(createCalculatorData())
-            }
+            onResultClick = onResultClick
         )
     }
 }
@@ -111,13 +126,12 @@ private fun CalculatorScreen(
 private fun CalculatorScreenPreview() {
     CalculatorScreen(
         padding = PaddingValues(),
-        navigateToCalculatorResult = {},
         uiState = CalculatorUiState.DEFAULT,
         onElectricityChange = {},
         onGasChange = {},
         onWaterChange = {},
         onTrashChange = {},
         onResetClick = {},
-        createCalculatorData = { CalculatorData(0.0, 0.0, 0.0, 0.0) }
+        onResultClick = {}
     )
 }
