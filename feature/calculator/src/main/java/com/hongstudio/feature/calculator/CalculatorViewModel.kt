@@ -69,7 +69,11 @@ class CalculatorViewModel @Inject constructor(
 
     fun onResultClick() {
         viewModelScope.launch {
-            _event.emit(CalculatorEvent.NavigateToCalculatorResult(createCalculatorData()))
+            if (_uiState.value.isAllInputFilled) {
+                _event.emit(CalculatorEvent.NavigateToCalculatorResult(createCalculatorData()))
+            } else {
+                _event.emit(CalculatorEvent.ShowSnackBar("모든 입력란을 채워주세요"))
+            }
         }
     }
 

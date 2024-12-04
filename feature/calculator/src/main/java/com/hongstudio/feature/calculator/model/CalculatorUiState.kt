@@ -18,4 +18,10 @@ data class CalculatorUiState(
             isTrashVisible = true
         )
     }
+
+    val isAllInputFilled: Boolean =
+        if (isElectricityVisible) electricityInput.isNotEmpty() else true &&
+                if (isGasVisible) gasInput.isNotEmpty() else true &&
+                        if (isWaterVisible) waterInput.isNotEmpty() else true &&
+                                if (isTrashVisible) trashInput.isNotEmpty() else true
 }

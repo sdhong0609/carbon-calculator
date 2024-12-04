@@ -9,9 +9,12 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,6 +40,7 @@ internal fun CalculatorRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
+    val snackBarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(Unit) {
         lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -44,6 +48,10 @@ internal fun CalculatorRoute(
                 when (event) {
                     is CalculatorEvent.NavigateToCalculatorResult -> {
                         navigateToCalculatorResult(event.calculatorData)
+                    }
+
+                    is CalculatorEvent.ShowSnackBar -> {
+                        snackBarHostState.showSnackbar(event.message)
                     }
                 }
             }
@@ -53,6 +61,7 @@ internal fun CalculatorRoute(
     CalculatorScreen(
         padding = padding,
         uiState = uiState,
+        snackBarHostState = snackBarHostState,
         onElectricityChange = viewModel::onElectricityChange,
         onGasChange = viewModel::onGasChange,
         onWaterChange = viewModel::onWaterChange,
@@ -66,6 +75,7 @@ internal fun CalculatorRoute(
 private fun CalculatorScreen(
     padding: PaddingValues,
     uiState: CalculatorUiState,
+    snackBarHostState: SnackbarHostState,
     onElectricityChange: (String) -> Unit,
     onGasChange: (String) -> Unit,
     onWaterChange: (String) -> Unit,
@@ -115,9 +125,11 @@ private fun CalculatorScreen(
             )
         }
         CalculatorBottomButtons(
+            isAllInputFilled = uiState.isAllInputFilled,
             onResetClick = onResetClick,
             onResultClick = onResultClick
         )
+        SnackbarHost(snackBarHostState)
     }
 }
 
@@ -127,6 +139,7 @@ private fun CalculatorScreenPreview() {
     CalculatorScreen(
         padding = PaddingValues(),
         uiState = CalculatorUiState.DEFAULT,
+        snackBarHostState = remember { SnackbarHostState() },
         onElectricityChange = {},
         onGasChange = {},
         onWaterChange = {},
