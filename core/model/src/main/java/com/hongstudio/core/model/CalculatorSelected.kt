@@ -8,6 +8,4 @@ data class CalculatorSelected(
     val isGasSelected: Boolean,
     val isWaterSelected: Boolean,
     val isTrashSelected: Boolean
-) {
-    val isAnySelected = isElectricitySelected || isGasSelected || isWaterSelected || isTrashSelected
-}
+)

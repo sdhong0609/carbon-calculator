@@ -14,4 +14,6 @@ data class CalculatorInstructionUiState(
             isTrashChecked = true
         )
     }
+
+    val isAnyChecked = isElectricityChecked || isGasChecked || isWaterChecked || isTrashChecked
 }

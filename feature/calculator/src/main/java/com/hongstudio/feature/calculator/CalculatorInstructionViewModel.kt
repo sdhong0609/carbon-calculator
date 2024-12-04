@@ -42,8 +42,7 @@ class CalculatorInstructionViewModel @Inject constructor() : ViewModel() {
 
     fun onStartCalculatorClick() {
         viewModelScope.launch {
-            val calculatorSelected = createCalculatorSelected()
-            if (calculatorSelected.isAnySelected) {
+            if (_uiState.value.isAnyChecked) {
                 _event.emit(CalculatorInstructionEvent.NavigateToCalculator(createCalculatorSelected()))
             } else {
                 _event.emit(CalculatorInstructionEvent.ShowSnackBar("계산할 항목을 선택해 주세요"))
@@ -51,7 +50,7 @@ class CalculatorInstructionViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun createCalculatorSelected() = CalculatorSelected(
+    private fun createCalculatorSelected() = CalculatorSelected(
         isElectricitySelected = _uiState.value.isElectricityChecked,
         isGasSelected = _uiState.value.isGasChecked,
         isWaterSelected = _uiState.value.isWaterChecked,

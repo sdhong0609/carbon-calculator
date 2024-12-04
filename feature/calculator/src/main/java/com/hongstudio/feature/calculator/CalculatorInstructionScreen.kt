@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -34,6 +35,7 @@ import com.hongstudio.core.model.CalculatorSelected
 import com.hongstudio.feature.calculator.model.CalculatorCheckbox
 import com.hongstudio.feature.calculator.model.CalculatorInstructionEvent
 import com.hongstudio.feature.calculator.model.CalculatorInstructionUiState
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 internal fun CalculatorInstructionRoute(
@@ -47,7 +49,7 @@ internal fun CalculatorInstructionRoute(
 
     LaunchedEffect(Unit) {
         lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            viewModel.event.collect { event ->
+            viewModel.event.collectLatest { event ->
                 when (event) {
                     is CalculatorInstructionEvent.NavigateToCalculator -> {
                         navigateToCalculator(event.calculatorSelected)
@@ -135,7 +137,16 @@ private fun CalculatorInstructionScreen(
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = onStartCalculatorClick) {
+        Button(
+            onClick = onStartCalculatorClick,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = if (uiState.isAnyChecked) {
+                    ButtonDefaults.buttonColors().containerColor
+                } else {
+                    ButtonDefaults.buttonColors().disabledContainerColor
+                }
+            )
+        ) {
             Text(modifier = Modifier.padding(8.dp), text = "계산기 시작")
         }
         SnackbarHost(snackBarHostState)
