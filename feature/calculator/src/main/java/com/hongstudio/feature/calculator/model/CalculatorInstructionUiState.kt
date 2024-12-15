@@ -1,19 +1,12 @@
 package com.hongstudio.feature.calculator.model
 
 data class CalculatorInstructionUiState(
-    val isElectricityChecked: Boolean,
-    val isGasChecked: Boolean,
-    val isWaterChecked: Boolean,
-    val isTrashChecked: Boolean
-) {
-    companion object {
-        val DEFAULT = CalculatorInstructionUiState(
-            isElectricityChecked = true,
-            isGasChecked = true,
-            isWaterChecked = true,
-            isTrashChecked = true
+    val calculatorCheckboxes: List<CalculatorCheckbox> = CalculatorType.entries.map {
+        CalculatorCheckbox(
+            type = it,
+            isChecked = true
         )
     }
-
-    val isAnyChecked = isElectricityChecked || isGasChecked || isWaterChecked || isTrashChecked
+) {
+    val isAnyChecked = calculatorCheckboxes.any { it.isChecked }
 }

@@ -1,7 +1,6 @@
 package com.hongstudio.feature.calculator.model
 
 data class CalculatorCheckbox(
-    val label: String,
-    val isChecked: Boolean,
-    val onCheckedChange: (Boolean) -> Unit
+    val type: CalculatorType,
+    val isChecked: Boolean
 )

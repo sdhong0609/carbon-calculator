@@ -34,9 +34,9 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.hongstudio.core.model.CalculatorSelected
-import com.hongstudio.feature.calculator.model.CalculatorCheckbox
 import com.hongstudio.feature.calculator.model.CalculatorInstructionEvent
 import com.hongstudio.feature.calculator.model.CalculatorInstructionUiState
+import com.hongstudio.feature.calculator.model.CalculatorType
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -71,10 +71,7 @@ internal fun CalculatorInstructionRoute(
         padding = padding,
         uiState = uiState,
         snackBarHostState = snackBarHostState,
-        onElectricityCheckedChange = viewModel::onElectricityCheckedChange,
-        onGasCheckedChange = viewModel::onGasCheckedChange,
-        onWaterCheckedChange = viewModel::onWaterCheckedChange,
-        onTrashCheckedChange = viewModel::onTrashCheckedChange,
+        onCalculatorToggle = viewModel::toggleCalculatorCheckbox,
         onStartCalculatorClick = viewModel::onStartCalculatorClick
     )
 }
@@ -84,20 +81,10 @@ private fun CalculatorInstructionScreen(
     padding: PaddingValues,
     uiState: CalculatorInstructionUiState,
     snackBarHostState: SnackbarHostState,
-    onElectricityCheckedChange: (Boolean) -> Unit,
-    onGasCheckedChange: (Boolean) -> Unit,
-    onWaterCheckedChange: (Boolean) -> Unit,
-    onTrashCheckedChange: (Boolean) -> Unit,
+    onCalculatorToggle: (CalculatorType) -> Unit,
     onStartCalculatorClick: () -> Unit
 ) {
     val scrollState = rememberScrollState()
-
-    val checkboxes = listOf(
-        CalculatorCheckbox("전기", uiState.isElectricityChecked, onElectricityCheckedChange),
-        CalculatorCheckbox("가스", uiState.isGasChecked, onGasCheckedChange),
-        CalculatorCheckbox("수도", uiState.isWaterChecked, onWaterCheckedChange),
-        CalculatorCheckbox("생활 폐기물", uiState.isTrashChecked, onTrashCheckedChange)
-    )
 
     Column(
         modifier = Modifier
@@ -107,6 +94,8 @@ private fun CalculatorInstructionScreen(
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        val checkboxesSize = uiState.calculatorCheckboxes.size
+
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(R.string.instruction_1)
@@ -116,23 +105,31 @@ private fun CalculatorInstructionScreen(
             text = stringResource(R.string.instruction_2)
         )
         Spacer(modifier = Modifier.height(16.dp))
+
+        // TODO: 전체 화면을 LazyVerticalGrid로 구현하는 것도 고려
         LazyVerticalGrid(
-            modifier = Modifier.height(100.dp), // TODO: 전체 화면을 LazyVerticalGrid로 구현하는 것도 고려
-            columns = GridCells.Fixed(checkboxes.size / 2),
+            modifier = Modifier.height(
+                (if (checkboxesSize % 2 == 0) (checkboxesSize / 2) * 50 else (checkboxesSize / 2 + 1) * 50).dp
+            ),
+            columns = GridCells.Fixed(checkboxesSize / 2),
             userScrollEnabled = false
         ) {
             items(
-                count = checkboxes.size,
+                count = checkboxesSize,
                 key = { it }
             ) { i ->
+                val checkbox = uiState.calculatorCheckboxes[i]
+
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Checkbox(
-                        checked = checkboxes[i].isChecked,
-                        onCheckedChange = checkboxes[i].onCheckedChange
+                        checked = checkbox.isChecked,
+                        onCheckedChange = {
+                            onCalculatorToggle(checkbox.type)
+                        }
                     )
-                    Text(checkboxes[i].label)
+                    Text(checkbox.type.title)
                 }
             }
         }
@@ -161,12 +158,9 @@ private fun CalculatorInstructionScreen(
 private fun CalculatorInstructionScreenPreview() {
     CalculatorInstructionScreen(
         padding = PaddingValues(),
-        uiState = CalculatorInstructionUiState.DEFAULT,
+        uiState = CalculatorInstructionUiState(),
         snackBarHostState = remember { SnackbarHostState() },
-        onElectricityCheckedChange = {},
-        onGasCheckedChange = {},
-        onWaterCheckedChange = {},
-        onTrashCheckedChange = {},
+        onCalculatorToggle = {},
         onStartCalculatorClick = {}
     )
 }

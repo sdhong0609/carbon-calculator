@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.hongstudio.core.model.CalculatorSelected
 import com.hongstudio.feature.calculator.model.CalculatorInstructionEvent
 import com.hongstudio.feature.calculator.model.CalculatorInstructionUiState
+import com.hongstudio.feature.calculator.model.CalculatorType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,26 +19,24 @@ import javax.inject.Inject
 @HiltViewModel
 class CalculatorInstructionViewModel @Inject constructor() : ViewModel() {
 
-    private val _uiState = MutableStateFlow(CalculatorInstructionUiState.DEFAULT)
+    private val _uiState = MutableStateFlow(CalculatorInstructionUiState())
     val uiState: StateFlow<CalculatorInstructionUiState> = _uiState.asStateFlow()
 
     private val _event = MutableSharedFlow<CalculatorInstructionEvent>()
     val event = _event.asSharedFlow()
 
-    fun onElectricityCheckedChange(isChecked: Boolean) {
-        _uiState.update { it.copy(isElectricityChecked = isChecked) }
-    }
-
-    fun onGasCheckedChange(isChecked: Boolean) {
-        _uiState.update { it.copy(isGasChecked = isChecked) }
-    }
-
-    fun onWaterCheckedChange(isChecked: Boolean) {
-        _uiState.update { it.copy(isWaterChecked = isChecked) }
-    }
-
-    fun onTrashCheckedChange(isChecked: Boolean) {
-        _uiState.update { it.copy(isTrashChecked = isChecked) }
+    fun toggleCalculatorCheckbox(calculatorType: CalculatorType) {
+        _uiState.update {
+            it.copy(
+                calculatorCheckboxes = it.calculatorCheckboxes.map {
+                    if (it.type == calculatorType) {
+                        it.copy(isChecked = !it.isChecked)
+                    } else {
+                        it
+                    }
+                }
+            )
+        }
     }
 
     fun onStartCalculatorClick() {
@@ -51,9 +50,9 @@ class CalculatorInstructionViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun createCalculatorSelected() = CalculatorSelected(
-        isElectricitySelected = _uiState.value.isElectricityChecked,
-        isGasSelected = _uiState.value.isGasChecked,
-        isWaterSelected = _uiState.value.isWaterChecked,
-        isTrashSelected = _uiState.value.isTrashChecked
+        isElectricitySelected = _uiState.value.calculatorCheckboxes.find { it.type == CalculatorType.ELECTRICITY }?.isChecked == true,
+        isGasSelected = _uiState.value.calculatorCheckboxes.find { it.type == CalculatorType.GAS }?.isChecked == true,
+        isWaterSelected = _uiState.value.calculatorCheckboxes.find { it.type == CalculatorType.WATER }?.isChecked == true,
+        isTrashSelected = _uiState.value.calculatorCheckboxes.find { it.type == CalculatorType.TRASH }?.isChecked == true
     )
 }
