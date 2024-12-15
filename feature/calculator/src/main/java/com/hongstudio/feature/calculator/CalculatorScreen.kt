@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.SnackbarHost
@@ -26,10 +28,10 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.hongstudio.core.model.CalculatorData
+import com.hongstudio.core.model.CalculatorType
 import com.hongstudio.feature.calculator.component.CalculatorBottomButtons
 import com.hongstudio.feature.calculator.component.CalculatorLabeledTextField
 import com.hongstudio.feature.calculator.model.CalculatorEvent
-import com.hongstudio.feature.calculator.model.CalculatorType
 import com.hongstudio.feature.calculator.model.CalculatorUiState
 import kotlinx.coroutines.flow.collectLatest
 
@@ -64,10 +66,7 @@ internal fun CalculatorRoute(
         padding = padding,
         uiState = uiState,
         snackBarHostState = snackBarHostState,
-        onElectricityChange = viewModel::onElectricityChange,
-        onGasChange = viewModel::onGasChange,
-        onWaterChange = viewModel::onWaterChange,
-        onTrashChange = viewModel::onTrashChange,
+        onInputChange = viewModel::onInputChange,
         onResetClick = viewModel::onResetClick,
         onResultClick = viewModel::onResultClick
     )
@@ -78,10 +77,7 @@ private fun CalculatorScreen(
     padding: PaddingValues,
     uiState: CalculatorUiState,
     snackBarHostState: SnackbarHostState,
-    onElectricityChange: (String) -> Unit,
-    onGasChange: (String) -> Unit,
-    onWaterChange: (String) -> Unit,
-    onTrashChange: (String) -> Unit,
+    onInputChange: (CalculatorType, String) -> Unit,
     onResetClick: () -> Unit,
     onResultClick: () -> Unit
 ) {
@@ -98,33 +94,18 @@ private fun CalculatorScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (uiState.isElectricityVisible) {
-            CalculatorLabeledTextField(
-                calculatorType = CalculatorType.ELECTRICITY,
-                input = uiState.electricityInput,
-                onValueChange = onElectricityChange
-            )
-        }
-        if (uiState.isGasVisible) {
-            CalculatorLabeledTextField(
-                calculatorType = CalculatorType.GAS,
-                input = uiState.gasInput,
-                onValueChange = onGasChange
-            )
-        }
-        if (uiState.isWaterVisible) {
-            CalculatorLabeledTextField(
-                calculatorType = CalculatorType.WATER,
-                input = uiState.waterInput,
-                onValueChange = onWaterChange
-            )
-        }
-        if (uiState.isTrashVisible) {
-            CalculatorLabeledTextField(
-                calculatorType = CalculatorType.TRASH,
-                input = uiState.trashInput,
-                onValueChange = onTrashChange
-            )
+        LazyColumn(
+            modifier = Modifier.height((uiState.calculatorTextFields.size * 70).dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            items(uiState.calculatorTextFields.size) {
+                val calculatorTextField = uiState.calculatorTextFields[it]
+                CalculatorLabeledTextField(
+                    calculatorType = calculatorTextField.type,
+                    input = calculatorTextField.input,
+                    onValueChange = { onInputChange(calculatorTextField.type, it) }
+                )
+            }
         }
         CalculatorBottomButtons(
             isAllInputFilled = uiState.isAllInputFilled,
@@ -140,12 +121,9 @@ private fun CalculatorScreen(
 private fun CalculatorScreenPreview() {
     CalculatorScreen(
         padding = PaddingValues(),
-        uiState = CalculatorUiState.DEFAULT,
+        uiState = CalculatorUiState(),
         snackBarHostState = remember { SnackbarHostState() },
-        onElectricityChange = {},
-        onGasChange = {},
-        onWaterChange = {},
-        onTrashChange = {},
+        onInputChange = { _, _ -> },
         onResetClick = {},
         onResultClick = {}
     )

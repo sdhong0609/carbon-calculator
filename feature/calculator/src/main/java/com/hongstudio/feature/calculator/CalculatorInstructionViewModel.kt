@@ -2,10 +2,9 @@ package com.hongstudio.feature.calculator
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hongstudio.core.model.CalculatorSelected
+import com.hongstudio.core.model.CalculatorType
 import com.hongstudio.feature.calculator.model.CalculatorInstructionEvent
 import com.hongstudio.feature.calculator.model.CalculatorInstructionUiState
-import com.hongstudio.feature.calculator.model.CalculatorType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -42,17 +41,13 @@ class CalculatorInstructionViewModel @Inject constructor() : ViewModel() {
     fun onStartCalculatorClick() {
         viewModelScope.launch {
             if (_uiState.value.isAnyChecked) {
-                _event.emit(CalculatorInstructionEvent.NavigateToCalculator(createCalculatorSelected()))
+                val selectedCalculators = _uiState.value.calculatorCheckboxes
+                    .filter { it.isChecked }
+                    .map { it.type }
+                _event.emit(CalculatorInstructionEvent.NavigateToCalculator(selectedCalculators))
             } else {
                 _event.emit(CalculatorInstructionEvent.ShowSnackBar(R.string.please_select_item))
             }
         }
     }
-
-    private fun createCalculatorSelected() = CalculatorSelected(
-        isElectricitySelected = _uiState.value.calculatorCheckboxes.find { it.type == CalculatorType.ELECTRICITY }?.isChecked == true,
-        isGasSelected = _uiState.value.calculatorCheckboxes.find { it.type == CalculatorType.GAS }?.isChecked == true,
-        isWaterSelected = _uiState.value.calculatorCheckboxes.find { it.type == CalculatorType.WATER }?.isChecked == true,
-        isTrashSelected = _uiState.value.calculatorCheckboxes.find { it.type == CalculatorType.TRASH }?.isChecked == true
-    )
 }

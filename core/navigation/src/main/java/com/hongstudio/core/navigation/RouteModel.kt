@@ -1,12 +1,12 @@
 package com.hongstudio.core.navigation
 
 import com.hongstudio.core.model.CalculatorData
-import com.hongstudio.core.model.CalculatorSelected
+import com.hongstudio.core.model.CalculatorType
 import kotlinx.serialization.Serializable
 
 sealed interface Route {
     @Serializable
-    data class Calculator(val calculatorSelected: CalculatorSelected) : Route
+    data class Calculator(val selectedCalculators: List<CalculatorType>) : Route
 
     @Serializable
     data class CalculatorResult(val calculatorData: CalculatorData) : Route

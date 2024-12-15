@@ -5,7 +5,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.hongstudio.core.model.CalculatorData
-import com.hongstudio.core.model.CalculatorSelected
+import com.hongstudio.core.model.CalculatorType
 import com.hongstudio.core.navigation.MainTabRoute
 import com.hongstudio.core.navigation.Route
 import com.hongstudio.core.navigation.TypeMap
@@ -13,8 +13,8 @@ import com.hongstudio.feature.calculator.CalculatorInstructionRoute
 import com.hongstudio.feature.calculator.CalculatorResultRoute
 import com.hongstudio.feature.calculator.CalculatorRoute
 
-fun NavController.navigateCalculator(calculatorSelected: CalculatorSelected) {
-    navigate(Route.Calculator(calculatorSelected = calculatorSelected))
+fun NavController.navigateCalculator(selectedCalculators: List<CalculatorType>) {
+    navigate(Route.Calculator(selectedCalculators = selectedCalculators))
 }
 
 fun NavController.navigateCalculatorResult(calculatorData: CalculatorData) {
@@ -23,7 +23,7 @@ fun NavController.navigateCalculatorResult(calculatorData: CalculatorData) {
 
 fun NavGraphBuilder.calculatorNavGraph(
     padding: PaddingValues,
-    navigateToCalculator: (CalculatorSelected) -> Unit,
+    navigateToCalculator: (List<CalculatorType>) -> Unit,
     navigateToCalculatorResult: (CalculatorData) -> Unit,
 ) {
     composable<MainTabRoute.CalculatorInstruction> {
@@ -34,7 +34,7 @@ fun NavGraphBuilder.calculatorNavGraph(
     }
 
     composable<Route.Calculator>(
-        typeMap = TypeMap.calculatorSelectedTypeMap
+        typeMap = TypeMap.selectedCalculatorsTypeMap
     ) {
         CalculatorRoute(
             padding = padding,

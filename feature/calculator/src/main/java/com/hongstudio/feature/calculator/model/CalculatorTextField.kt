@@ -2,7 +2,7 @@ package com.hongstudio.feature.calculator.model
 
 import com.hongstudio.core.model.CalculatorType
 
-data class CalculatorCheckbox(
+data class CalculatorTextField(
     val type: CalculatorType,
-    val isChecked: Boolean
+    val input: String
 )

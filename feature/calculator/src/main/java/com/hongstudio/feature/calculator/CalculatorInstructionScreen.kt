@@ -33,16 +33,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
-import com.hongstudio.core.model.CalculatorSelected
+import com.hongstudio.core.model.CalculatorType
 import com.hongstudio.feature.calculator.model.CalculatorInstructionEvent
 import com.hongstudio.feature.calculator.model.CalculatorInstructionUiState
-import com.hongstudio.feature.calculator.model.CalculatorType
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 internal fun CalculatorInstructionRoute(
     padding: PaddingValues,
-    navigateToCalculator: (CalculatorSelected) -> Unit,
+    navigateToCalculator: (List<CalculatorType>) -> Unit,
     viewModel: CalculatorInstructionViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -56,7 +55,7 @@ internal fun CalculatorInstructionRoute(
             viewModel.event.collectLatest { event ->
                 when (event) {
                     is CalculatorInstructionEvent.NavigateToCalculator -> {
-                        navigateToCalculator(event.calculatorSelected)
+                        navigateToCalculator(event.selectedCalculators)
                     }
 
                     is CalculatorInstructionEvent.ShowSnackBar -> {
