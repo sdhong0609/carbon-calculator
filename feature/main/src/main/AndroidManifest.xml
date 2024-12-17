@@ -5,7 +5,8 @@
         <activity
             android:name="com.hongstudio.feature.main.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.CarbonCalculator">
+            android:theme="@style/Theme.CarbonCalculator"
+            android:windowSoftInputMode="adjustNothing">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
