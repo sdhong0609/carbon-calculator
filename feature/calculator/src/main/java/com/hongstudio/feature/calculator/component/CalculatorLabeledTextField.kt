@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -47,7 +48,10 @@ internal fun CalculatorLabeledTextField(
                 contentDescription = null,
                 tint = calculatorType.iconTint
             )
-            Text(modifier = Modifier.padding(end = 8.dp), text = calculatorType.label)
+            Text(
+                modifier = Modifier.padding(end = 8.dp),
+                text = stringResource(calculatorType.labelId)
+            )
         }
         Spacer(modifier = Modifier.width(8.dp))
         Row(
@@ -60,7 +64,10 @@ internal fun CalculatorLabeledTextField(
                 input = input,
                 onValueChange = onValueChange
             )
-            Text(modifier = Modifier.widthIn(min = 56.dp), text = "${calculatorType.unit}/월")
+            Text(
+                modifier = Modifier.widthIn(min = 56.dp),
+                text = "${stringResource(calculatorType.unitId)}/월"
+            )
         }
     }
 }

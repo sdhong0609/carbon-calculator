@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="electricity_title">전기</string>
+    <string name="gas_title">가스</string>
+    <string name="water_title">수도</string>
+    <string name="trash_title">생활 폐기물</string>
+    <string name="electricity_label">전기 사용량</string>
+    <string name="gas_label">가스 사용량</string>
+    <string name="water_label">수도 사용량</string>
+    <string name="trash_label">생활 폐기물</string>
+    <string name="electricity_unit">kWh</string>
+    <string name="gas_unit">m³</string>
+    <string name="water_unit">m³</string>
+    <string name="trash_unit">L</string>
+</resources>

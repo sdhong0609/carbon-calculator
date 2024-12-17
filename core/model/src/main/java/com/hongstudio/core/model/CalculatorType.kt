@@ -1,6 +1,7 @@
 package com.hongstudio.core.model
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
 import com.hongstudio.core.designsystem.theme.Green03
 import com.hongstudio.core.designsystem.theme.Mint01
@@ -10,43 +11,43 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 enum class CalculatorType(
-    val title: String,
+    @StringRes val titleId: Int,
     @DrawableRes val iconResId: Int,
     val iconTint: Color,
-    val label: String,
-    val unit: String,
+    @StringRes val labelId: Int,
+    @StringRes val unitId: Int,
     val multiply: Double
 ) {
     ELECTRICITY(
-        title = "전기",
+        titleId = R.string.electricity_title,
         iconResId = R.drawable.ic_electrical_outlet,
         iconTint = Yellow01,
-        label = "전기 사용량",
-        unit = "kWh",
+        labelId = R.string.electricity_label,
+        unitId = R.string.electricity_unit,
         multiply = 0.4781
     ),
     GAS(
-        title = "가스",
+        titleId = R.string.gas_title,
         iconResId = R.drawable.ic_fire,
         iconTint = Red03,
-        label = "가스 사용량",
-        unit = "m³",
+        labelId = R.string.gas_label,
+        unitId = R.string.gas_unit,
         multiply = 2.176
     ),
     WATER(
-        title = "수도",
+        titleId = R.string.water_title,
         iconResId = R.drawable.ic_water_drop,
         iconTint = Mint01,
-        label = "수도 사용량",
-        unit = "m³",
+        labelId = R.string.water_label,
+        unitId = R.string.water_unit,
         multiply = 0.237
     ),
     TRASH(
-        title = "생활 폐기물",
+        titleId = R.string.trash_title,
         iconResId = R.drawable.ic_recycling,
         iconTint = Green03,
-        label = "생활 폐기물",
-        unit = "L",
+        labelId = R.string.trash_label,
+        unitId = R.string.trash_unit,
         multiply = 0.9529
     )
 }

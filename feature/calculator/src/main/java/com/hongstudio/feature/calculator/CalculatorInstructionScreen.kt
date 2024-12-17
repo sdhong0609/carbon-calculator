@@ -128,7 +128,7 @@ private fun CalculatorInstructionScreen(
                             onCalculatorToggle(checkbox.type)
                         }
                     )
-                    Text(checkbox.type.title)
+                    Text(stringResource(checkbox.type.titleId))
                 }
             }
         }
