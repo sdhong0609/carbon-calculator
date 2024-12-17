@@ -1,5 +1,7 @@
 package com.hongstudio.feature.calculator
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -33,6 +35,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
+import coil3.compose.AsyncImage
 import com.hongstudio.core.model.CalculatorType
 import com.hongstudio.feature.calculator.model.CalculatorInstructionEvent
 import com.hongstudio.feature.calculator.model.CalculatorInstructionUiState
@@ -85,70 +88,84 @@ private fun CalculatorInstructionScreen(
 ) {
     val scrollState = rememberScrollState()
 
-    Column(
+    Box(
         modifier = Modifier
             .padding(padding)
-            .verticalScroll(scrollState)
-            .padding(all = 16.dp)
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .fillMaxSize()
     ) {
-        val checkboxesSize = uiState.calculatorCheckboxes.size
-
-        Text(
-            modifier = Modifier.fillMaxWidth(),
-            text = stringResource(R.string.instruction_1)
-        )
-        Text(
-            modifier = Modifier.fillMaxWidth(),
-            text = stringResource(R.string.instruction_2)
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // TODO: 전체 화면을 LazyVerticalGrid로 구현하는 것도 고려
-        LazyVerticalGrid(
-            modifier = Modifier.height(
-                (if (checkboxesSize % 2 == 0) (checkboxesSize / 2) * 50 else (checkboxesSize / 2 + 1) * 50).dp
-            ),
-            columns = GridCells.Fixed(checkboxesSize / 2),
-            userScrollEnabled = false
+        Column(
+            modifier = Modifier
+                .verticalScroll(scrollState)
+                .padding(all = 16.dp)
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            items(
-                count = checkboxesSize,
-                key = { it }
-            ) { i ->
-                val checkbox = uiState.calculatorCheckboxes[i]
+            val checkboxesSize = uiState.calculatorCheckboxes.size
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Checkbox(
-                        checked = checkbox.isChecked,
-                        onCheckedChange = {
-                            onCalculatorToggle(checkbox.type)
-                        }
-                    )
-                    Text(stringResource(checkbox.type.titleId))
+            AsyncImage(
+                model = R.drawable.carbon_footprint,
+                contentDescription = null
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(R.string.instruction_1)
+            )
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(R.string.instruction_2)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // TODO: 전체 화면을 LazyVerticalGrid로 구현하는 것도 고려
+            LazyVerticalGrid(
+                modifier = Modifier.height(
+                    (if (checkboxesSize % 2 == 0) (checkboxesSize / 2) * 50 else (checkboxesSize / 2 + 1) * 50).dp
+                ),
+                columns = GridCells.Fixed(checkboxesSize / 2),
+                userScrollEnabled = false
+            ) {
+                items(
+                    count = checkboxesSize,
+                    key = { it }
+                ) { i ->
+                    val checkbox = uiState.calculatorCheckboxes[i]
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Checkbox(
+                            checked = checkbox.isChecked,
+                            onCheckedChange = {
+                                onCalculatorToggle(checkbox.type)
+                            }
+                        )
+                        Text(stringResource(checkbox.type.titleId))
+                    }
                 }
             }
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(
+                onClick = onStartCalculatorClick,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (uiState.isAnyChecked) {
+                        ButtonDefaults.buttonColors().containerColor
+                    } else {
+                        ButtonDefaults.buttonColors().disabledContainerColor
+                    }
+                )
+            ) {
+                Text(
+                    modifier = Modifier.padding(8.dp),
+                    text = stringResource(R.string.start_calculator)
+                )
+            }
         }
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(
-            onClick = onStartCalculatorClick,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = if (uiState.isAnyChecked) {
-                    ButtonDefaults.buttonColors().containerColor
-                } else {
-                    ButtonDefaults.buttonColors().disabledContainerColor
-                }
-            )
-        ) {
-            Text(
-                modifier = Modifier.padding(8.dp),
-                text = stringResource(R.string.start_calculator)
-            )
-        }
-        SnackbarHost(snackBarHostState)
+        SnackbarHost(
+            modifier = Modifier.align(Alignment.BottomCenter),
+            hostState = snackBarHostState
+        )
     }
 }
 

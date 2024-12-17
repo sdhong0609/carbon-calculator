@@ -1,9 +1,11 @@
 package com.hongstudio.feature.calculator
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
@@ -83,36 +85,44 @@ private fun CalculatorScreen(
 ) {
     val scrollState = rememberScrollState()
 
-    Column(
+    Box(
         modifier = Modifier
             .padding(padding)
-            .consumeWindowInsets(padding)
-            .imePadding()
-            .fillMaxWidth()
-            .verticalScroll(state = scrollState)
-            .padding(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .fillMaxSize()
     ) {
-        LazyColumn(
-            modifier = Modifier.height((uiState.calculatorTextFields.size * 70).dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+        Column(
+            modifier = Modifier
+                .consumeWindowInsets(padding)
+                .imePadding()
+                .fillMaxWidth()
+                .verticalScroll(state = scrollState)
+                .padding(all = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            items(uiState.calculatorTextFields.size) {
-                val calculatorTextField = uiState.calculatorTextFields[it]
-                CalculatorLabeledTextField(
-                    calculatorType = calculatorTextField.type,
-                    input = calculatorTextField.input,
-                    onValueChange = { onInputChange(calculatorTextField.type, it) }
-                )
+            LazyColumn(
+                modifier = Modifier.height((uiState.calculatorTextFields.size * 70).dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(uiState.calculatorTextFields.size) {
+                    val calculatorTextField = uiState.calculatorTextFields[it]
+                    CalculatorLabeledTextField(
+                        calculatorType = calculatorTextField.type,
+                        input = calculatorTextField.input,
+                        onValueChange = { onInputChange(calculatorTextField.type, it) }
+                    )
+                }
             }
+            CalculatorBottomButtons(
+                isAllInputFilled = uiState.isAllInputFilled,
+                onResetClick = onResetClick,
+                onResultClick = onResultClick
+            )
         }
-        CalculatorBottomButtons(
-            isAllInputFilled = uiState.isAllInputFilled,
-            onResetClick = onResetClick,
-            onResultClick = onResultClick
+        SnackbarHost(
+            modifier = Modifier.align(Alignment.BottomCenter),
+            hostState = snackBarHostState
         )
-        SnackbarHost(snackBarHostState)
     }
 }
 
