@@ -17,13 +17,15 @@ class CalculatorResultViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(CalculatorResultUiState.DEFAULT)
+    private val _uiState = MutableStateFlow(CalculatorResultUiState())
     val uiState: StateFlow<CalculatorResultUiState> = _uiState.asStateFlow()
 
-    private val total =
-        savedStateHandle.toRoute<Route.CalculatorResult>(TypeMap.calculatorDataTypeMap).calculatorData.total
+    private val inputCompletedCalculators =
+        savedStateHandle.toRoute<Route.CalculatorResult>(TypeMap.inputCompletedCalculatorsTypeMap).inputCompletedCalculators
 
     init {
-        _uiState.value = CalculatorResultUiState(total = total)
+        _uiState.value = CalculatorResultUiState(total = inputCompletedCalculators.map {
+            it.input * it.type.multiply
+        }.sum())
     }
 }

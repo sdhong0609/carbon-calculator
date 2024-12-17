@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.hongstudio.core.model.CalculatorData
+import com.hongstudio.core.model.CalculatorInputData
 import com.hongstudio.core.model.CalculatorType
 import com.hongstudio.core.navigation.Route
 import com.hongstudio.core.navigation.TypeMap
@@ -67,17 +67,16 @@ class CalculatorViewModel @Inject constructor(
     fun onResultClick() {
         viewModelScope.launch {
             if (_uiState.value.isAllInputFilled) {
-                _event.emit(CalculatorEvent.NavigateToCalculatorResult(createCalculatorData()))
+                val inputCompletedCalculators = _uiState.value.calculatorTextFields.map {
+                    CalculatorInputData(
+                        type = it.type,
+                        input = it.input.toDouble()
+                    )
+                }
+                _event.emit(CalculatorEvent.NavigateToCalculatorResult(inputCompletedCalculators))
             } else {
                 _event.emit(CalculatorEvent.ShowSnackBar(R.string.please_fill_all_input))
             }
         }
     }
-
-    private fun createCalculatorData() = CalculatorData(
-        electricity = 0.0,
-        gas = 0.0,
-        water = 0.0,
-        trash = 0.0
-    )
 }

@@ -1,6 +1,6 @@
 package com.hongstudio.core.navigation
 
-import com.hongstudio.core.model.CalculatorData
+import com.hongstudio.core.model.CalculatorInputData
 import com.hongstudio.core.model.CalculatorType
 import kotlinx.serialization.Serializable
 
@@ -9,7 +9,7 @@ sealed interface Route {
     data class Calculator(val selectedCalculators: List<CalculatorType>) : Route
 
     @Serializable
-    data class CalculatorResult(val calculatorData: CalculatorData) : Route
+    data class CalculatorResult(val inputCompletedCalculators: List<CalculatorInputData>) : Route
 }
 
 sealed interface MainTabRoute {

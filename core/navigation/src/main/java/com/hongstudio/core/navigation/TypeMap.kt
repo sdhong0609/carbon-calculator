@@ -2,7 +2,7 @@ package com.hongstudio.core.navigation
 
 import android.os.Bundle
 import androidx.navigation.NavType
-import com.hongstudio.core.model.CalculatorData
+import com.hongstudio.core.model.CalculatorInputData
 import com.hongstudio.core.model.CalculatorType
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
@@ -34,30 +34,31 @@ object TypeMap {
         }
     )
 
-    val calculatorDataTypeMap = mapOf(
-        typeOf<CalculatorData>() to object :
-            NavType<CalculatorData>(isNullableAllowed = false) {
-            override fun get(
-                bundle: Bundle,
-                key: String
-            ): CalculatorData? {
-                return bundle.getString(key)?.let { Json.decodeFromString(it) }
+    val inputCompletedCalculatorsTypeMap = mapOf(
+        typeOf<List<CalculatorInputData>>() to object :
+            NavType<List<CalculatorInputData>>(isNullableAllowed = false) {
+
+            override fun get(bundle: Bundle, key: String): List<CalculatorInputData>? {
+                return bundle.getStringArray(key)
+                    ?.map { Json.decodeFromString<CalculatorInputData>(it) }
             }
 
-            override fun parseValue(value: String): CalculatorData {
-                return Json.decodeFromString(value)
+            override fun parseValue(value: String): List<CalculatorInputData> {
+                return Json.decodeFromString(
+                    ListSerializer(CalculatorInputData.serializer()),
+                    value
+                )
             }
 
-            override fun put(
-                bundle: Bundle,
-                key: String,
-                value: CalculatorData
-            ) {
-                bundle.putString(key, Json.encodeToString(CalculatorData.serializer(), value))
+            override fun put(bundle: Bundle, key: String, value: List<CalculatorInputData>) {
+                val serializedList = value.map {
+                    Json.encodeToString(CalculatorInputData.serializer(), it)
+                }.toTypedArray()
+                bundle.putStringArray(key, serializedList)
             }
 
-            override fun serializeAsValue(value: CalculatorData): String {
-                return Json.encodeToString(CalculatorData.serializer(), value)
+            override fun serializeAsValue(value: List<CalculatorInputData>): String {
+                return Json.encodeToString(ListSerializer(CalculatorInputData.serializer()), value)
             }
         }
     )

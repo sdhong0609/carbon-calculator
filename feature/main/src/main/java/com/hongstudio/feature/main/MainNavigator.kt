@@ -11,7 +11,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import com.hongstudio.core.model.CalculatorData
+import com.hongstudio.core.model.CalculatorInputData
 import com.hongstudio.core.model.CalculatorType
 import com.hongstudio.feature.calculator.navigation.navigateCalculator
 import com.hongstudio.feature.calculator.navigation.navigateCalculatorResult
@@ -45,8 +45,8 @@ internal class MainNavigator(
         navController.navigateCalculator(selectedCalculators)
     }
 
-    fun navigateCalculatorResult(calculatorData: CalculatorData) {
-        navController.navigateCalculatorResult(calculatorData)
+    fun navigateCalculatorResult(inputCompletedCalculators: List<CalculatorInputData>) {
+        navController.navigateCalculatorResult(inputCompletedCalculators)
     }
 }
 

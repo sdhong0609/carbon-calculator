@@ -58,6 +58,6 @@ private fun CalculatorResultScreen(
 private fun CalculatorResultScreenPreview() {
     CalculatorResultScreen(
         padding = PaddingValues(),
-        uiState = CalculatorResultUiState.DEFAULT
+        uiState = CalculatorResultUiState()
     )
 }

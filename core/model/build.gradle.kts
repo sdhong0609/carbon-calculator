@@ -36,8 +36,8 @@ android {
 dependencies {
     implementation(project(":core:designsystem"))
     implementation(libs.kotlinx.serialization.json)
-    implementation("androidx.compose.ui:ui-graphics:1.7.6")
-    implementation("androidx.annotation:annotation:1.9.1")
+    implementation(libs.ui.graphics)
+    implementation(libs.androidx.annotation)
 
 
     testImplementation(libs.junit)

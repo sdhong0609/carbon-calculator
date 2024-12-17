@@ -27,7 +27,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
-import com.hongstudio.core.model.CalculatorData
+import com.hongstudio.core.model.CalculatorInputData
 import com.hongstudio.core.model.CalculatorType
 import com.hongstudio.feature.calculator.component.CalculatorBottomButtons
 import com.hongstudio.feature.calculator.component.CalculatorLabeledTextField
@@ -38,7 +38,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 internal fun CalculatorRoute(
     padding: PaddingValues,
-    navigateToCalculatorResult: (CalculatorData) -> Unit,
+    navigateToCalculatorResult: (List<CalculatorInputData>) -> Unit,
     viewModel: CalculatorViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -51,7 +51,7 @@ internal fun CalculatorRoute(
             viewModel.event.collectLatest { event ->
                 when (event) {
                     is CalculatorEvent.NavigateToCalculatorResult -> {
-                        navigateToCalculatorResult(event.calculatorData)
+                        navigateToCalculatorResult(event.inputCompletedCalculators)
                     }
 
                     is CalculatorEvent.ShowSnackBar -> {
