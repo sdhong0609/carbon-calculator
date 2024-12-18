@@ -48,6 +48,10 @@ internal class MainNavigator(
     fun navigateCalculatorResult(inputCompletedCalculators: List<CalculatorInputData>) {
         navController.navigateCalculatorResult(inputCompletedCalculators)
     }
+
+    fun popUntilCalculatorInstruction() {
+        navController.popBackStack(route = MainTab.CALCULATOR.route, inclusive = false)
+    }
 }
 
 

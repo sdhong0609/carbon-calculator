@@ -25,6 +25,7 @@ fun NavGraphBuilder.calculatorNavGraph(
     padding: PaddingValues,
     navigateToCalculator: (List<CalculatorType>) -> Unit,
     navigateToCalculatorResult: (List<CalculatorInputData>) -> Unit,
+    popUntilCalculatorInstruction: () -> Unit
 ) {
     composable<MainTabRoute.CalculatorInstruction> {
         CalculatorInstructionRoute(
@@ -45,6 +46,9 @@ fun NavGraphBuilder.calculatorNavGraph(
     composable<Route.CalculatorResult>(
         typeMap = TypeMap.inputCompletedCalculatorsTypeMap
     ) {
-        CalculatorResultRoute(padding = padding)
+        CalculatorResultRoute(
+            padding = padding,
+            popUntilCalculatorInstruction = popUntilCalculatorInstruction
+        )
     }
 }

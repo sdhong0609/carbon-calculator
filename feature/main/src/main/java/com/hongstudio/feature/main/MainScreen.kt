@@ -48,7 +48,8 @@ internal fun MainScreen() {
                 calculatorNavGraph(
                     padding = innerPadding,
                     navigateToCalculator = navigator::navigateCalculator,
-                    navigateToCalculatorResult = navigator::navigateCalculatorResult
+                    navigateToCalculatorResult = navigator::navigateCalculatorResult,
+                    popUntilCalculatorInstruction = navigator::popUntilCalculatorInstruction
                 )
 //                historyNavGraph(padding = innerPadding)
 //                settingNavGraph(padding = innerPadding)
