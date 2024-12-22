@@ -1,5 +1,6 @@
 package com.hongstudio.feature.calculator
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
+import com.hongstudio.core.designsystem.theme.White
 import com.hongstudio.core.model.CalculatorInputData
 import com.hongstudio.core.model.CalculatorType
 import com.hongstudio.feature.calculator.component.CalculatorBottomButtons
@@ -87,14 +89,14 @@ private fun CalculatorScreen(
 
     Box(
         modifier = Modifier
-            .padding(padding)
             .fillMaxSize()
+            .padding(padding)
     ) {
         Column(
             modifier = Modifier
                 .consumeWindowInsets(padding)
                 .imePadding()
-                .fillMaxWidth()
+                .fillMaxSize()
                 .verticalScroll(state = scrollState)
                 .padding(all = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -113,16 +115,25 @@ private fun CalculatorScreen(
                     )
                 }
             }
+        }
+        Box(
+            modifier = Modifier.align(Alignment.BottomCenter)
+        ) {
             CalculatorBottomButtons(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .background(White)
+                    .padding(16.dp),
                 isAllInputFilled = uiState.isAllInputFilled,
                 onResetClick = onResetClick,
                 onResultClick = onResultClick
             )
+            SnackbarHost(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                hostState = snackBarHostState
+            )
         }
-        SnackbarHost(
-            modifier = Modifier.align(Alignment.BottomCenter),
-            hostState = snackBarHostState
-        )
     }
 }
 
