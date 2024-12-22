@@ -15,15 +15,11 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hongstudio.core.designsystem.theme.White
@@ -62,59 +58,39 @@ fun DoubleButtonScreen(
                 .verticalScroll(state = scrollState)
                 .padding(bottom = (52 + 32).dp)
                 .padding(all = 16.dp),
-            horizontalAlignment = Alignment.Companion.CenterHorizontally,
+            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             content()
         }
         Box(
-            modifier = Modifier.align(Alignment.Companion.BottomCenter)
+            modifier = Modifier.align(Alignment.BottomCenter)
         ) {
             Row(
                 modifier = Modifier
-                    .align(Alignment.Companion.BottomCenter)
+                    .align(Alignment.BottomCenter)
                     .fillMaxWidth()
                     .background(White)
                     .padding(16.dp),
-                verticalAlignment = Alignment.Companion.CenterVertically,
+                verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Button(
+                BasicButton(
                     modifier = Modifier.weight(1f),
-                    onClick = onLeftButtonClick,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isLeftButtonEnabled) {
-                            ButtonDefaults.buttonColors().containerColor
-                        } else {
-                            ButtonDefaults.buttonColors().disabledContainerColor
-                        }
-                    )
-                ) {
-                    Text(
-                        modifier = Modifier.padding(8.dp),
-                        text = stringResource(leftButtonTextId)
-                    )
-                }
-                Button(
+                    isButtonEnabled = isLeftButtonEnabled,
+                    buttonTextId = leftButtonTextId,
+                    onClick = onLeftButtonClick
+                )
+                BasicButton(
                     modifier = Modifier.weight(1f),
-                    onClick = onRightButtonClick,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isRightButtonEnabled) {
-                            ButtonDefaults.buttonColors().containerColor
-                        } else {
-                            ButtonDefaults.buttonColors().disabledContainerColor
-                        }
-                    )
-                ) {
-                    Text(
-                        modifier = Modifier.padding(8.dp),
-                        text = stringResource(rightButtonTextId)
-                    )
-                }
+                    isButtonEnabled = isRightButtonEnabled,
+                    buttonTextId = rightButtonTextId,
+                    onClick = onRightButtonClick
+                )
             }
 
             SnackbarHost(
-                modifier = Modifier.align(Alignment.Companion.BottomCenter),
+                modifier = Modifier.align(Alignment.BottomCenter),
                 hostState = snackBarHostState
             )
         }
@@ -154,55 +130,35 @@ fun DoubleButtonScreen(
                 .verticalScroll(state = scrollState)
                 .padding(bottom = (52 + 32).dp)
                 .padding(all = 16.dp),
-            horizontalAlignment = Alignment.Companion.CenterHorizontally,
+            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             content()
         }
         Box(
-            modifier = Modifier.align(Alignment.Companion.BottomCenter)
+            modifier = Modifier.align(Alignment.BottomCenter)
         ) {
             Row(
                 modifier = Modifier
-                    .align(Alignment.Companion.BottomCenter)
+                    .align(Alignment.BottomCenter)
                     .fillMaxWidth()
                     .background(White)
                     .padding(16.dp),
-                verticalAlignment = Alignment.Companion.CenterVertically,
+                verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Button(
+                BasicButton(
                     modifier = Modifier.weight(1f),
-                    onClick = onLeftButtonClick,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isLeftButtonEnabled) {
-                            ButtonDefaults.buttonColors().containerColor
-                        } else {
-                            ButtonDefaults.buttonColors().disabledContainerColor
-                        }
-                    )
-                ) {
-                    Text(
-                        modifier = Modifier.padding(8.dp),
-                        text = stringResource(leftButtonTextId)
-                    )
-                }
-                Button(
+                    isButtonEnabled = isLeftButtonEnabled,
+                    buttonTextId = leftButtonTextId,
+                    onClick = onLeftButtonClick
+                )
+                BasicButton(
                     modifier = Modifier.weight(1f),
-                    onClick = onRightButtonClick,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isRightButtonEnabled) {
-                            ButtonDefaults.buttonColors().containerColor
-                        } else {
-                            ButtonDefaults.buttonColors().disabledContainerColor
-                        }
-                    )
-                ) {
-                    Text(
-                        modifier = Modifier.padding(8.dp),
-                        text = stringResource(rightButtonTextId)
-                    )
-                }
+                    isButtonEnabled = isRightButtonEnabled,
+                    buttonTextId = rightButtonTextId,
+                    onClick = onRightButtonClick
+                )
             }
         }
     }
