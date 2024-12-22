@@ -20,8 +20,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.hongstudio.core.model.CalculatorInputData
 import com.hongstudio.core.model.CalculatorType
+import com.hongstudio.core.ui.DoubleButtonScreen
 import com.hongstudio.feature.calculator.component.CalculatorLabeledTextField
-import com.hongstudio.feature.calculator.component.DoubleButtonScreen
 import com.hongstudio.feature.calculator.model.CalculatorEvent
 import com.hongstudio.feature.calculator.model.CalculatorUiState
 import kotlinx.coroutines.flow.collectLatest

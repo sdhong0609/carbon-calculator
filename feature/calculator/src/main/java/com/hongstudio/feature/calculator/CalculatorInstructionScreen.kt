@@ -27,7 +27,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import coil3.compose.AsyncImage
 import com.hongstudio.core.model.CalculatorType
-import com.hongstudio.feature.calculator.component.SingleButtonScreen
+import com.hongstudio.core.ui.SingleButtonScreen
 import com.hongstudio.feature.calculator.model.CalculatorInstructionEvent
 import com.hongstudio.feature.calculator.model.CalculatorInstructionUiState
 import kotlinx.coroutines.flow.collectLatest
