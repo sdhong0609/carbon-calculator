@@ -1,21 +1,11 @@
 package com.hongstudio.feature.calculator
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,7 +17,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import coil3.compose.AsyncImage
 import com.hongstudio.core.designsystem.theme.CarbonCalculatorTheme
-import com.hongstudio.core.designsystem.theme.White
+import com.hongstudio.feature.calculator.component.SingleButtonScreen
 import com.hongstudio.feature.calculator.model.CalculatorResultEvent
 import com.hongstudio.feature.calculator.model.CalculatorResultUiState
 import kotlinx.coroutines.flow.collectLatest
@@ -72,53 +62,25 @@ private fun CalculatorResultScreen(
     } else {
         totalValue
     }
-    val scrollState = rememberScrollState()
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(padding)
+    SingleButtonScreen(
+        padding = padding,
+        onButtonClick = onRestartClick,
+        buttonTextId = R.string.calculator_restart_button_text
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(scrollState)
-                .padding(bottom = (52 + 32).dp)
-                .padding(all = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = stringResource(R.string.total_co2_title),
-                style = CarbonCalculatorTheme.typography.headlineMediumB
-            )
-            AsyncImage(
-                modifier = Modifier.padding(16.dp),
-                model = R.drawable.co2_neutral,
-                contentDescription = null
-            )
-            Text(
-                text = stringResource(R.string.total_co2, formattedTotal),
-                style = CarbonCalculatorTheme.typography.headlineMediumB
-            )
-        }
-        Box(
-            modifier = Modifier.align(Alignment.BottomCenter)
-        ) {
-            Button(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .fillMaxWidth()
-                    .background(White)
-                    .padding(16.dp),
-                onClick = onRestartClick
-            ) {
-                Text(
-                    modifier = Modifier.padding(8.dp),
-                    text = stringResource(R.string.calculator_restart_button_text)
-                )
-            }
-        }
+        Text(
+            text = stringResource(R.string.total_co2_title),
+            style = CarbonCalculatorTheme.typography.headlineMediumB
+        )
+        AsyncImage(
+            modifier = Modifier.padding(16.dp),
+            model = R.drawable.co2_neutral,
+            contentDescription = null
+        )
+        Text(
+            text = stringResource(R.string.total_co2, formattedTotal),
+            style = CarbonCalculatorTheme.typography.headlineMediumB
+        )
     }
 }
 
