@@ -79,6 +79,7 @@ private fun CalculatorScreen(
         isRightButtonEnabled = uiState.isAllInputFilled,
         leftButtonTextId = R.string.calculator_reset_button_text,
         rightButtonTextId = R.string.calculator_result_button_text,
+        hasKeyboard = true,
         snackBarHostState = snackBarHostState
     ) {
         LazyColumn(

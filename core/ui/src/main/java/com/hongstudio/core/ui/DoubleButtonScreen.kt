@@ -37,10 +37,19 @@ fun DoubleButtonScreen(
     isRightButtonEnabled: Boolean = true,
     @StringRes leftButtonTextId: Int,
     @StringRes rightButtonTextId: Int,
+    hasKeyboard: Boolean = false,
     snackBarHostState: SnackbarHostState,
     content: @Composable ColumnScope.() -> Unit
 ) {
     val scrollState = rememberScrollState()
+
+    val keyboardModifier = if (hasKeyboard) {
+        Modifier
+            .consumeWindowInsets(padding)
+            .imePadding()
+    } else {
+        Modifier
+    }
 
     Box(
         modifier = Modifier
@@ -48,9 +57,7 @@ fun DoubleButtonScreen(
             .padding(padding)
     ) {
         Column(
-            modifier = Modifier
-                .consumeWindowInsets(padding)
-                .imePadding()
+            modifier = keyboardModifier
                 .fillMaxSize()
                 .verticalScroll(state = scrollState)
                 .padding(bottom = (52 + 32).dp)
@@ -123,9 +130,18 @@ fun DoubleButtonScreen(
     isRightButtonEnabled: Boolean = true,
     @StringRes leftButtonTextId: Int,
     @StringRes rightButtonTextId: Int,
+    hasKeyboard: Boolean = false,
     content: @Composable ColumnScope.() -> Unit
 ) {
     val scrollState = rememberScrollState()
+
+    val keyboardModifier = if (hasKeyboard) {
+        Modifier
+            .consumeWindowInsets(padding)
+            .imePadding()
+    } else {
+        Modifier
+    }
 
     Box(
         modifier = Modifier
@@ -133,9 +149,7 @@ fun DoubleButtonScreen(
             .padding(padding)
     ) {
         Column(
-            modifier = Modifier
-                .consumeWindowInsets(padding)
-                .imePadding()
+            modifier = keyboardModifier
                 .fillMaxSize()
                 .verticalScroll(state = scrollState)
                 .padding(bottom = (52 + 32).dp)
