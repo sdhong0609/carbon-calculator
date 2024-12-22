@@ -1,5 +1,6 @@
 package com.hongstudio.feature.calculator
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,6 +37,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import coil3.compose.AsyncImage
+import com.hongstudio.core.designsystem.theme.White
 import com.hongstudio.core.model.CalculatorType
 import com.hongstudio.feature.calculator.model.CalculatorInstructionEvent
 import com.hongstudio.feature.calculator.model.CalculatorInstructionUiState
@@ -90,16 +92,17 @@ private fun CalculatorInstructionScreen(
 
     Box(
         modifier = Modifier
-            .padding(padding)
             .fillMaxSize()
+            .padding(padding)
     ) {
         Column(
             modifier = Modifier
+                .fillMaxSize()
                 .verticalScroll(scrollState)
-                .padding(all = 16.dp)
-                .fillMaxSize(),
+                .padding(bottom = (52 + 16).dp)
+                .padding(all = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.Center
         ) {
             val checkboxesSize = uiState.calculatorCheckboxes.size
 
@@ -146,7 +149,16 @@ private fun CalculatorInstructionScreen(
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
+        }
+        Box(
+            modifier = Modifier.align(Alignment.BottomCenter)
+        ) {
             Button(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .background(White)
+                    .padding(16.dp),
                 onClick = onStartCalculatorClick,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = if (uiState.isAnyChecked) {
@@ -161,11 +173,11 @@ private fun CalculatorInstructionScreen(
                     text = stringResource(R.string.start_calculator)
                 )
             }
+            SnackbarHost(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                hostState = snackBarHostState
+            )
         }
-        SnackbarHost(
-            modifier = Modifier.align(Alignment.BottomCenter),
-            hostState = snackBarHostState
-        )
     }
 }
 
