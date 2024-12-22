@@ -24,6 +24,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.hongstudio.core.designsystem.theme.Gray
 import com.hongstudio.core.model.CalculatorType
 import com.hongstudio.feature.calculator.util.DecimalFormatter
 import com.hongstudio.feature.calculator.util.DecimalInputVisualTransformation
@@ -93,7 +94,12 @@ private fun CalculatorTextField(
     OutlinedTextField(
         modifier = modifier,
         value = input,
-        placeholder = { Text("숫자 입력") },
+        placeholder = {
+            Text(
+                text = "숫자 입력",
+                color = Gray
+            )
+        },
         onValueChange = { value ->
             if (value.length <= 10) {
                 onValueChange(decimalFormatter.format(value))
