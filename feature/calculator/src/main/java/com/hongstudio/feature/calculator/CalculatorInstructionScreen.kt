@@ -1,24 +1,13 @@
 package com.hongstudio.feature.calculator
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,8 +26,8 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import coil3.compose.AsyncImage
-import com.hongstudio.core.designsystem.theme.White
 import com.hongstudio.core.model.CalculatorType
+import com.hongstudio.feature.calculator.component.SingleButtonScreen
 import com.hongstudio.feature.calculator.model.CalculatorInstructionEvent
 import com.hongstudio.feature.calculator.model.CalculatorInstructionUiState
 import kotlinx.coroutines.flow.collectLatest
@@ -88,94 +77,56 @@ private fun CalculatorInstructionScreen(
     onCalculatorToggle: (CalculatorType) -> Unit,
     onStartCalculatorClick: () -> Unit
 ) {
-    val scrollState = rememberScrollState()
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(padding)
+    SingleButtonScreen(
+        padding = padding,
+        onButtonClick = onStartCalculatorClick,
+        isButtonEnabled = uiState.isAnyChecked,
+        buttonTextId = R.string.start_calculator,
+        snackBarHostState = snackBarHostState
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(scrollState)
-                .padding(bottom = (52 + 32).dp)
-                .padding(all = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+        val checkboxesSize = uiState.calculatorCheckboxes.size
+
+        AsyncImage(
+            model = R.drawable.carbon_footprint,
+            contentDescription = null
+        )
+        Spacer(modifier = Modifier.height(24.dp))
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            text = stringResource(R.string.instruction_1)
+        )
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            text = stringResource(R.string.instruction_2)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // TODO: 전체 화면을 LazyVerticalGrid로 구현하는 것도 고려
+        LazyVerticalGrid(
+            modifier = Modifier.height(
+                (if (checkboxesSize % 2 == 0) (checkboxesSize / 2) * 50 else (checkboxesSize / 2 + 1) * 50).dp
+            ),
+            columns = GridCells.Fixed(checkboxesSize / 2),
+            userScrollEnabled = false
         ) {
-            val checkboxesSize = uiState.calculatorCheckboxes.size
+            items(
+                count = checkboxesSize,
+                key = { it }
+            ) { i ->
+                val checkbox = uiState.calculatorCheckboxes[i]
 
-            AsyncImage(
-                model = R.drawable.carbon_footprint,
-                contentDescription = null
-            )
-            Spacer(modifier = Modifier.height(24.dp))
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(R.string.instruction_1)
-            )
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(R.string.instruction_2)
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // TODO: 전체 화면을 LazyVerticalGrid로 구현하는 것도 고려
-            LazyVerticalGrid(
-                modifier = Modifier.height(
-                    (if (checkboxesSize % 2 == 0) (checkboxesSize / 2) * 50 else (checkboxesSize / 2 + 1) * 50).dp
-                ),
-                columns = GridCells.Fixed(checkboxesSize / 2),
-                userScrollEnabled = false
-            ) {
-                items(
-                    count = checkboxesSize,
-                    key = { it }
-                ) { i ->
-                    val checkbox = uiState.calculatorCheckboxes[i]
-
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Checkbox(
-                            checked = checkbox.isChecked,
-                            onCheckedChange = {
-                                onCalculatorToggle(checkbox.type)
-                            }
-                        )
-                        Text(stringResource(checkbox.type.titleId))
-                    }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Checkbox(
+                        checked = checkbox.isChecked,
+                        onCheckedChange = {
+                            onCalculatorToggle(checkbox.type)
+                        }
+                    )
+                    Text(stringResource(checkbox.type.titleId))
                 }
             }
-        }
-        Box(
-            modifier = Modifier.align(Alignment.BottomCenter)
-        ) {
-            Button(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .fillMaxWidth()
-                    .background(White)
-                    .padding(16.dp),
-                onClick = onStartCalculatorClick,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = if (uiState.isAnyChecked) {
-                        ButtonDefaults.buttonColors().containerColor
-                    } else {
-                        ButtonDefaults.buttonColors().disabledContainerColor
-                    }
-                )
-            ) {
-                Text(
-                    modifier = Modifier.padding(8.dp),
-                    text = stringResource(R.string.start_calculator)
-                )
-            }
-            SnackbarHost(
-                modifier = Modifier.align(Alignment.BottomCenter),
-                hostState = snackBarHostState
-            )
         }
     }
 }
