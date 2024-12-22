@@ -243,3 +243,4 @@ fabric.properties
 # End of https://www.toptal.com/developers/gitignore/api/macos,android,androidstudio,kotlin,gradle
 .idea
 .kotlin
+carbon-calculator-certificate.pem

@@ -4,7 +4,13 @@
     <string name="instruction_2">사용 방법\n1. 아래 항목 중 계산기에 입력할 항목을 선택합니다.\n2. 다음 화면에서 각 항목에 대한 사용량을 입력합니다.\n3. 결과 화면에서 총 CO₂ 발생량을 확인합니다.</string>
     <string name="start_calculator">계산기 시작</string>
     <string name="please_select_item">계산할 항목을 선택해 주세요</string>
+
+    <string name="calculator_textfield_placeholder">숫자 입력</string>
+    <string name="calculator_reset_button_text">초기화</string>
+    <string name="calculator_result_button_text">결과 보기</string>
     <string name="please_fill_all_input">모든 입력란을 채워주세요</string>
+
     <string name="total_co2_title">총 CO₂ 발생량</string>
     <string name="total_co2">%s kg/월</string>
+    <string name="calculator_restart_button_text">다시하기</string>
 </resources>
