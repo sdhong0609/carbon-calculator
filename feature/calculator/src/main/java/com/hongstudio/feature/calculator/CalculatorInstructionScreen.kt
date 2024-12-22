@@ -99,7 +99,7 @@ private fun CalculatorInstructionScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(scrollState)
-                .padding(bottom = (52 + 16).dp)
+                .padding(bottom = (52 + 32).dp)
                 .padding(all = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
@@ -148,7 +148,6 @@ private fun CalculatorInstructionScreen(
                     }
                 }
             }
-            Spacer(modifier = Modifier.height(16.dp))
         }
         Box(
             modifier = Modifier.align(Alignment.BottomCenter)

@@ -98,9 +98,10 @@ private fun CalculatorScreen(
                 .imePadding()
                 .fillMaxSize()
                 .verticalScroll(state = scrollState)
+                .padding(bottom = (52 + 32).dp)
                 .padding(all = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             LazyColumn(
                 modifier = Modifier.height((uiState.calculatorTextFields.size * 70).dp),
