@@ -115,7 +115,7 @@ private fun CalculatorResultScreen(
             ) {
                 Text(
                     modifier = Modifier.padding(8.dp),
-                    text = "다시하기"
+                    text = stringResource(R.string.calculator_restart_button_text)
                 )
             }
         }

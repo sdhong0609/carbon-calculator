@@ -10,7 +10,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.hongstudio.feature.calculator.R
 
 @Composable
 internal fun CalculatorBottomButtons(
@@ -36,7 +38,10 @@ internal fun CalculatorBottomButtons(
 @Composable
 fun ResetButton(modifier: Modifier, onResetClick: () -> Unit) {
     Button(modifier = modifier, onClick = onResetClick) {
-        Text(modifier = Modifier.padding(8.dp), text = "초기화")
+        Text(
+            modifier = Modifier.padding(8.dp),
+            text = stringResource(R.string.calculator_reset_button_text)
+        )
     }
 }
 
@@ -53,6 +58,9 @@ fun ResultButton(modifier: Modifier, isAllInputFilled: Boolean, onResultClick: (
             }
         )
     ) {
-        Text(modifier = Modifier.padding(8.dp), text = "결과 보기")
+        Text(
+            modifier = Modifier.padding(8.dp),
+            text = stringResource(R.string.calculator_result_button_text)
+        )
     }
 }

@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hongstudio.core.designsystem.theme.Gray
 import com.hongstudio.core.model.CalculatorType
+import com.hongstudio.feature.calculator.R
 import com.hongstudio.feature.calculator.util.DecimalFormatter
 import com.hongstudio.feature.calculator.util.DecimalInputVisualTransformation
 
@@ -96,7 +97,7 @@ private fun CalculatorTextField(
         value = input,
         placeholder = {
             Text(
-                text = "숫자 입력",
+                text = stringResource(R.string.calculator_textfield_placeholder),
                 color = Gray
             )
         },
