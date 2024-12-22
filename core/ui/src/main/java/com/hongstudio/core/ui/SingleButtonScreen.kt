@@ -1,4 +1,4 @@
-package com.hongstudio.feature.calculator.component
+package com.hongstudio.core.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
@@ -18,15 +18,12 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hongstudio.core.designsystem.theme.White
 
 @Composable
-internal fun SingleButtonScreen(
+fun SingleButtonScreen(
     padding: PaddingValues,
     onButtonClick: () -> Unit,
     isButtonEnabled: Boolean = true,
@@ -37,27 +34,27 @@ internal fun SingleButtonScreen(
     val scrollState = rememberScrollState()
 
     Box(
-        modifier = Modifier
+        modifier = androidx.compose.ui.Modifier.Companion
             .fillMaxSize()
             .padding(padding)
     ) {
         Column(
-            modifier = Modifier
+            modifier = androidx.compose.ui.Modifier.Companion
                 .fillMaxSize()
                 .verticalScroll(scrollState)
                 .padding(bottom = (52 + 32).dp)
                 .padding(all = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = androidx.compose.ui.Alignment.Companion.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             content()
         }
         Box(
-            modifier = Modifier.align(Alignment.BottomCenter)
+            modifier = androidx.compose.ui.Modifier.Companion.align(androidx.compose.ui.Alignment.Companion.BottomCenter)
         ) {
             Button(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
+                modifier = androidx.compose.ui.Modifier.Companion
+                    .align(androidx.compose.ui.Alignment.Companion.BottomCenter)
                     .fillMaxWidth()
                     .background(White)
                     .padding(16.dp),
@@ -71,12 +68,12 @@ internal fun SingleButtonScreen(
                 )
             ) {
                 Text(
-                    modifier = Modifier.padding(8.dp),
-                    text = stringResource(buttonTextId)
+                    modifier = androidx.compose.ui.Modifier.Companion.padding(8.dp),
+                    text = androidx.compose.ui.res.stringResource(buttonTextId)
                 )
             }
             SnackbarHost(
-                modifier = Modifier.align(Alignment.BottomCenter),
+                modifier = androidx.compose.ui.Modifier.Companion.align(androidx.compose.ui.Alignment.Companion.BottomCenter),
                 hostState = snackBarHostState
             )
         }
@@ -84,7 +81,7 @@ internal fun SingleButtonScreen(
 }
 
 @Composable
-internal fun SingleButtonScreen(
+fun SingleButtonScreen(
     padding: PaddingValues,
     onButtonClick: () -> Unit,
     isButtonEnabled: Boolean = true,
@@ -94,27 +91,27 @@ internal fun SingleButtonScreen(
     val scrollState = rememberScrollState()
 
     Box(
-        modifier = Modifier
+        modifier = androidx.compose.ui.Modifier.Companion
             .fillMaxSize()
             .padding(padding)
     ) {
         Column(
-            modifier = Modifier
+            modifier = androidx.compose.ui.Modifier.Companion
                 .fillMaxSize()
                 .verticalScroll(scrollState)
                 .padding(bottom = (52 + 32).dp)
                 .padding(all = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = androidx.compose.ui.Alignment.Companion.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             content()
         }
         Box(
-            modifier = Modifier.align(Alignment.BottomCenter)
+            modifier = androidx.compose.ui.Modifier.Companion.align(androidx.compose.ui.Alignment.Companion.BottomCenter)
         ) {
             Button(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
+                modifier = androidx.compose.ui.Modifier.Companion
+                    .align(androidx.compose.ui.Alignment.Companion.BottomCenter)
                     .fillMaxWidth()
                     .background(White)
                     .padding(16.dp),
@@ -128,8 +125,8 @@ internal fun SingleButtonScreen(
                 )
             ) {
                 Text(
-                    modifier = Modifier.padding(8.dp),
-                    text = stringResource(buttonTextId)
+                    modifier = androidx.compose.ui.Modifier.Companion.padding(8.dp),
+                    text = androidx.compose.ui.res.stringResource(buttonTextId)
                 )
             }
         }

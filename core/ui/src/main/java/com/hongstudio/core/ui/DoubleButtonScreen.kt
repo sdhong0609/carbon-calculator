@@ -1,4 +1,4 @@
-package com.hongstudio.feature.calculator.component
+package com.hongstudio.core.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.hongstudio.core.designsystem.theme.White
 
 @Composable
-internal fun DoubleButtonScreen(
+fun DoubleButtonScreen(
     padding: PaddingValues,
     onLeftButtonClick: () -> Unit,
     onRightButtonClick: () -> Unit,
@@ -54,21 +54,21 @@ internal fun DoubleButtonScreen(
                 .verticalScroll(state = scrollState)
                 .padding(bottom = (52 + 32).dp)
                 .padding(all = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.Companion.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             content()
         }
         Box(
-            modifier = Modifier.align(Alignment.BottomCenter)
+            modifier = Modifier.align(Alignment.Companion.BottomCenter)
         ) {
             Row(
                 modifier = Modifier
-                    .align(Alignment.BottomCenter)
+                    .align(Alignment.Companion.BottomCenter)
                     .fillMaxWidth()
                     .background(White)
                     .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.Companion.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Button(
@@ -106,7 +106,7 @@ internal fun DoubleButtonScreen(
             }
 
             SnackbarHost(
-                modifier = Modifier.align(Alignment.BottomCenter),
+                modifier = Modifier.align(Alignment.Companion.BottomCenter),
                 hostState = snackBarHostState
             )
         }
